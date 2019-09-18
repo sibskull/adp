@@ -1,0 +1,7 @@
+* apd-functions helper
+* get Linux.xml from GPO directory from sysvol share
+* check arguments passed to script
+* transport files from GPO directory from sysvol share
+* alterator module for ADP configuration
+* sync ADPs between share and local storage
+* more policies
