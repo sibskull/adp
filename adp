@@ -49,7 +49,20 @@ class DomainPolicies:
     def get_gpo_list( self ):
         """Get GPO for user or machine"""
         logging.debug( 'get_gpo_list()' )
-        # TODO Check Kerberos ticket by `klist -s`
+
+        # Get Kerberos ticket for machine
+        if self.c == 'machine':
+            subprocess.call( [ 'kinit', '-k', self.object ] )
+
+        try:
+            # Check Kerberos ticket by `klist -s`
+            subprocess.check_call( [ 'klist', '-s' ] )
+            logging.debug( subprocess.check_output( 'klist', stderr=subprocess.STDOUT ).decode() )
+        except:
+            logging.fatal( 'There is no Kerberos ticket' )
+            sys.exit( 1 )
+
+        # Get GPO list by net ads gpo list command
         run_command = [ 'net', 'ads', 'gpo', 'list', self.object ]
         logging.debug( "Run command: %s" % ( " ".join( run_command ) ) )
         p = subprocess.Popen( run_command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, stdin=subprocess.DEVNULL, close_fds=True )
