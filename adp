@@ -25,6 +25,7 @@ import re
 import os
 import glob
 import logging
+import xml.etree.ElementTree as ET
 
 VERSION = '0.1'
 TEMPLATE_PATH="/usr/libexec/adp"
@@ -112,13 +113,42 @@ def show_template( template ):
         print( "Unable to open template '%s'" % ( template ) )
         sys.exit( 1 )
 
-def apply_policy( template, args ):
+def apply_policy( template, args, class_name=None ):
     """Apply local policy"""
     if not template:
         print( "Please, specify template name" )
         sys.exit( 1 )
 
-    # TODO
+    # Get file name of specified template and open it
+    file_name = "%s/%s.xml" % ( TEMPLATE_PATH, template )
+    logging.debug( "Open template from %s" % ( file_name ) )
+    if not os.path.exists( file_name ):
+        logging.error( "File %s does not exist" % ( file_name ) )
+        return 1
+    try:
+        t = ET.parse( file_name )
+    except:
+        logging.error( "Unable to parse %s" % ( file_name ) )
+        return 1
+
+    # TODO Check class from <class> tag
+    # TODO Check requirements from <requires> tag(s)
+    script = t.find( "script" )
+    if script != None and script.text:
+        script_file = "%s/scripts/%s" % ( TEMPLATE_PATH, script.text )
+        # TODO put domain name and share path to environment variables
+
+        # TODO Check arguments
+        a = args
+        a.insert(0, script_file )
+
+        # Run script
+        logging.debug( "Run script %s" % ( ' '.join( a ) ))
+        p = subprocess.Popen( a, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, stdin=subprocess.DEVNULL, close_fds=True )
+        output = p.stdout.read().decode()
+        logging.debug( output )
+    return 0
+
 
 # Read command-line parameters
 parser = argparse.ArgumentParser(
