@@ -31,6 +31,7 @@ install -d -m 0770 %buildroot%_logdir/%name
 
 %files
 %doc *.md
+%doc examples
 %_bindir/%name
 %_prefix/libexec/%name
 %attr(0770, root, users) %_logdir/%name
