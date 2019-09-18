@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policy_template>
+	<id>user.background.image</id>
+	<name>Set background image for user</name>
+	<name xml:lang="ru">Установить изображение в качестве обоев</name>
+	<version>0.1</version>
+	<class>user</class>
+	<requires type="de">mate</requires>
+	<requires de="mate" type="package">xdg-user-dirs</requires>
+	<requires de="mate" type="package">libgio</requires>
+	<script>user.background.image.sh</script>
+	<parameters>
+		<param type="string">image</param>
+		<param type="string">location</param>
+	</parameters>
+</policy_template>
