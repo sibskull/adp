@@ -22,16 +22,20 @@ import socket
 import subprocess
 import sys
 import re
+import os
+import glob
+import logging
 
 VERSION = '0.1'
+TEMPLATE_PATH="/usr/libexec/adp"
+LOG_DIR="/var/log/adp/"
+log_level = logging.ERROR
 
 class DomainPolicies:
     """Class for get GPO for specified policy class and apply they"""
-    def __init__( self, t, verbose, debug, obj=None ):
+    def __init__( self, t, obj=None ):
         self.list = []
         self.c = t
-        self.is_verbose = verbose
-        self.is_debug = debug
         if obj:
             self.object = obj
         elif self.c == 'user':
@@ -40,31 +44,23 @@ class DomainPolicies:
         else:
             # Get short hostname in upper case with trailing $
             self.object = socket.gethostname().split('.', 1)[0].upper() + "$"
-
-    def verbose( self, s ):
-        """Print string if verbose level set"""
-        if self.is_verbose or self.is_debug:
-            print( s )
-
-    def debug( self, s ):
-        """Print string if debug level set"""
-        if self.is_debug:
-            print( s )
+        logging.basicConfig( filename = LOG_DIR + self.object, format = '%(asctime)s %(message)s', level = log_level )
 
     def get_gpo_list( self ):
         """Get GPO for user or machine"""
-        self.debug( 'get_gpo_list()' )
+        logging.debug( 'get_gpo_list()' )
+        # TODO Check Kerberos ticket by `klist -s`
         run_command = [ 'net', 'ads', 'gpo', 'list', self.object ]
-        self.debug( "Run command: %s" % ( " ".join( run_command ) ) )
-        p = subprocess.Popen( run_command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, close_fds=True )
+        logging.debug( "Run command: %s" % ( " ".join( run_command ) ) )
+        p = subprocess.Popen( run_command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, stdin=subprocess.DEVNULL, close_fds=True )
         output = p.stdout.read().decode()
-        self.debug( output )
+        logging.debug( output )
         # Parse output of net ads gro list
         r = re.compile( '^[^ \t]+:' )
         i = None
         for l in list( filter( r.match, output.splitlines() ) ):
             ( param, value ) = re.split( ':[ \t]*', l, maxsplit=1 )
-            #self.debug( '%s|%s' % ( param, value ) )
+            #logging.debug( '%s|%s' % ( param, value ) )
             if param == 'name':
                 i = { 'name': value, 'description': '', 'filepath': '' }
                 self.list.append( i )
@@ -75,12 +71,41 @@ class DomainPolicies:
 
     def apply(self):
         """Perform apply policies"""
-        self.debug( 'apply()' )
-        self.verbose( "Apply domain policies for %s '%s'..." % ( self.c, self.object ) )
+        logging.debug( 'apply()' )
+        logging.info( "Apply domain policies for %s '%s'..." % ( self.c, self.object ) )
         self.get_gpo_list()
         for p in self.list:
-            self.verbose( "Applying %s (%s) from %s" % ( p['name'], p['description'], p['filepath'] ) )
+            logging.info( "Applying %s (%s) from %s" % ( p['name'], p['description'], p['filepath'] ) )
             # TODO
+
+# Functions
+def list_templates():
+    """List all available local policy templates"""
+    files = [ f for f in glob.glob( TEMPLATE_PATH + "/*.xml", recursive=False ) ]
+    for f in files:
+        print( os.path.basename( os.path.splitext( f )[0] ) )
+
+def show_template( template ):
+    """Show local policy template detail"""
+    if not template:
+        print( "Please, specify template name" )
+        sys.exit( 1 )
+
+    path = "%s/%s.xml" % ( TEMPLATE_PATH, template )
+    try:
+        with open( path, 'r' ) as f:
+            print( f.read() )
+    except:
+        print( "Unable to open template '%s'" % ( template ) )
+        sys.exit( 1 )
+
+def apply_policy( template, args ):
+    """Apply local policy"""
+    if not template:
+        print( "Please, specify template name" )
+        sys.exit( 1 )
+
+    # TODO
 
 # Read command-line parameters
 parser = argparse.ArgumentParser(
@@ -89,12 +114,31 @@ parser = argparse.ArgumentParser(
 
 parser.add_argument( '-v', action='store_true', dest='verbose',   help='Verbose output' )
 parser.add_argument( '-d', action='store_true', dest='debug',     help='Debug output' )
-parser.add_argument( 'policy_class', choices=['user', 'machine'], help='Class of policies: user or machine' )
-parser.add_argument( 'object', nargs='?', help='Name of user or machine (optional)' )
+parser.add_argument( 'command', choices=['user', 'machine', 'list', 'show', 'apply' ], help='Class of policies: user or machine, list local templates, show template or apply local policy' )
+parser.add_argument( 'object', nargs='?', help='Name of user, machine or template (optional)' )
+parser.add_argument( 'args', nargs='*', help='Arguments for apply command (optional)' )
 parser.add_argument( '--version', action='version', version=VERSION )
 
 args = parser.parse_args()
 
-# Apply policies
-m = DomainPolicies( args.policy_class, args.verbose, args.debug, args.object )
-m.apply()
+# Logging
+if args.verbose:
+    log_level = logging.INFO
+if args.debug:
+    log_level = logging.DEBUG
+
+# Process command
+if args.command == 'list':
+    logging.basicConfig( format = '%(message)s', level = log_level )
+    list_templates()
+elif args.command == 'show':
+    logging.basicConfig( format = '%(message)s', level = log_level )
+    show_template( args.object )
+elif args.command == 'apply':
+    logging.basicConfig( format = '%(message)s', level = log_level )
+    apply_policy( args.object, args.args )
+else:
+    # Apply policies
+    m = DomainPolicies( args.command, args.object )
+    m.apply()
+
