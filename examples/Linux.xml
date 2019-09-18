@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policies>
+	<policy>
+		<template>user.background.image</template>
+		<param name="image">comet.jpg</param>
+		<param name="location"></param>
+	</policy>
+<policies>
