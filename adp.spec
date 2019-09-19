@@ -24,7 +24,8 @@ Apply Linux-specific domain policies for Active Directory user or machine.
 %setup
 
 %install
-install -Dm 0644 adp %buildroot%_bindir/adp
+install -Dm 0755 adp %buildroot%_bindir/adp
+install -Dm 0755 adp-functions %buildroot%_bindir/adp-functions
 mkdir -p %buildroot%_prefix/libexec/%name
 cp -av policies/* %buildroot%_prefix/libexec/%name
 install -d -m 0770 %buildroot%_logdir/%name
@@ -33,6 +34,7 @@ install -d -m 0770 %buildroot%_logdir/%name
 %doc *.md
 %doc examples
 %_bindir/%name
+%_bindir/adp-functions
 %_prefix/libexec/%name
 %attr(0770, root, users) %_logdir/%name
 

@@ -1,0 +1,27 @@
+#!/bin/sh
+
+# Copy file from specified location or from policy share
+adp_copy_file() 
+{
+	location="$1"; shift
+	source_file="$1"; shift
+	target_file="$1"; shift
+
+	# Make path for target_file
+	target_dir="$(dirname "$target_file")"
+	if [ ! -e "$target_dir" ]; then
+		mkdir -p "$target_dir"
+	fi
+
+	if [ -n "$location" ]; then
+		# Copy ordinary file
+		cp -a "$location/$source_file" "$target_file"
+	else
+		# Get content from share with policy
+		# Source path is passed in $ADP_PATH environment variable
+		# Note: gio share should be mounted by gio mount first
+		if [ -n "$ADP_PATH" ]; then
+			gio cat "$ADP_PATH" > "$target_file"
+		fi
+	fi
+}
