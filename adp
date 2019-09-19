@@ -88,9 +88,77 @@ class DomainPolicies:
         logging.debug( 'apply()' )
         logging.info( "Apply domain policies for %s '%s'..." % ( self.c, self.object ) )
         self.get_gpo_list()
+
+        # Mount share
+        sysvol_share = "smb://%s/sysvol" % ( os.environ['ADP_DOMAIN'] )
+        try:
+            logging.debug( "Mount %s" % ( sysvol_share ) )
+            output = subprocess.check_output( [ 'gio', 'mount', sysvol_share ], stderr=subprocess.STDOUT ).decode()
+            logging.debug( output )
+        except:
+            pass
+
         for p in self.list:
-            logging.info( "Applying %s (%s) from %s" % ( p['name'], p['description'], p['filepath'] ) )
-            # TODO
+            logging.debug( "Get %s (%s) from %s" % ( p['name'], p['description'], p['filepath'] ) )
+            # Get Linux.xml from filepath as string
+            adp_policy_path = "smb:%s" % ( p['filepath'].replace( '\\', '/' ) )
+            adp_policy_file = "%s/Linux.xml" % ( adp_policy_path )
+            try:
+                policy_content = subprocess.check_output( [ 'gio', 'cat', adp_policy_file ], stderr=subprocess.DEVNULL ).decode()
+                logging.debug( policy_content )
+            except:
+                pass
+
+            if policy_content == '':
+                logging.debug( "GPO %s does not contains Linux.xml, ignoring..." % ( p['name'] ) )
+                continue
+
+            # Set path to ADP_PATH environment variable
+            os.environ['ADP_PATH'] = adp_policy_path
+
+            # Parse policy content
+            try:
+                t = ET.fromstring( policy_content )
+            except:
+                logging.error( "Unable to parse policy file %s" % ( adp_policy_file ) )
+                continue
+
+            logging.info( "Apply policy %s" % ( p['name'] ) )
+
+            # Iterate through policies
+            for policy in t.findall( 'policy' ):
+                # Get template name
+                template = policy.find( 'template' ).text
+                # Fill arguments
+                args = []
+                for i in policy.findall( 'param' ):
+                    args.append( i.text )
+
+                # Apply policy
+                if template != '':
+                    logging.info( "Apply rule %s" % ( template ) )
+                    apply_policy( template, args, self.c )
+
+        # Umount share
+        try:
+            logging.debug( "Umount %s" % ( sysvol_share ) )
+            output = subprocess.check_output( [ 'gio', 'mount', '-u', sysvol_share ], stderr=subprocess.STDOUT ).decode()
+            logging.debug( output )
+        except:
+            pass
+
+def env_set_domain():
+    """Get current Active Directory domain name"""
+    # Get domain name by command net ads lookup
+    try:
+        output = subprocess.check_output( 'net ads lookup', stderr=subprocess.STDOUT ).decode()
+    except:
+        return
+    # Parse ^Domain:...
+    d = re.search( "Domain:\s*(\S+)\n", output, re.MULTILINE )
+    if d:
+        os.environ['ADP_DOMAIN'] = d.group(1)
+        logging.debug( "ADP_DOMAIN=%s" % ( d.group(1) ) )
 
 # Functions
 def list_templates():
@@ -169,6 +237,9 @@ if args.verbose:
     log_level = logging.INFO
 if args.debug:
     log_level = logging.DEBUG
+
+# Set domain in ADP_DOMAIN environment variable
+env_set_domain()
 
 # Process command
 if args.command == 'list':
