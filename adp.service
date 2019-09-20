@@ -1,0 +1,9 @@
+[Unit]
+Description=Apply domain policies for machine
+After=sssd.service
+
+[Service]
+ExecStart=/usr/bin/adp machine
+
+[Install]
+WantedBy=multi-user.target

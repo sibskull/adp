@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=adp
+Comment=Apply domain policy for user
+Comment[ru]=Применение доменных политик для пользователя
+Exec=adp user
+Categories=Network;RemoteAccess;
