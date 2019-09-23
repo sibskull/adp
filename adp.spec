@@ -14,20 +14,19 @@ Source:   %name-%version.tar
 BuildRequires: rpm-build-python3
 Requires: krb5-kinit
 Requires: samba-common-tools
-Requires: %name-policies
+Requires: %name-templates
 
 BuildArch: noarch
 
 %description
 Apply Linux-specific domain policies for Active Directory user or machine.
 
-%package policies
-Summary: Set of ALT Domain Policies
+%package templates
+Summary: Set of ALT Domain Policies templates
 Group: Other
-Requires: %name = %EVR
 
-%description policies
-Set of ALT Domain Policies.
+%description templates
+Set of ALT Domain Policies templates.
 
 %prep
 %setup
@@ -51,7 +50,7 @@ install -Dm0644 %name.service %buildroot%_unitdir/%name.service
 %_sysconfdir/xdg/autostart/%name.desktop
 %_unitdir/%name.service
 
-%files policies
+%files templates
 %_prefix/libexec/%name/*
 
 %changelog
