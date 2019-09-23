@@ -35,7 +35,7 @@ Set of ALT Domain Policies templates.
 install -Dm 0755 adp %buildroot%_bindir/adp
 install -Dm 0755 adp-functions %buildroot%_bindir/adp-functions
 mkdir -p %buildroot%_prefix/libexec/%name
-cp -av policies/* %buildroot%_prefix/libexec/%name
+cp -av templates/* %buildroot%_prefix/libexec/%name
 install -d -m 0770 %buildroot%_logdir/%name
 install -Dm0644 %name.desktop %buildroot%_sysconfdir/xdg/autostart/%name.desktop
 install -Dm0644 %name.service %buildroot%_unitdir/%name.service
