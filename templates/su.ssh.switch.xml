@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policy_template>
+	<id>su.ssh.switch</id>
+	<name>Enable the SSH server</name>
+	<name xml:lang="ru">Включить SSH-сервер</name>
+	<version>0.1</version>
+	<class>su</class>
+	<requires type="package">systemd-utils</requires>
+	<requires type="package">openssh-server</requires>
+	<script>su.ssh.switch.sh</script>
+	<parameters>
+		<param type="boolen">switch</param>
+	</parameters>
+</policy_template>
