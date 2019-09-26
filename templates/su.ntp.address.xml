@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policy_template>
+	<id>su.ntp.address</id>
+	<name>Add the address of the NTP server</name>
+	<name xml:lang="ru">Добавить адрес NTP-сервера</name>
+	<version>0.1</version>
+	<class>su</class>
+	<requires type="package">systemd-services</requires>
+	<script>su.ntp.address.sh</script>
+	<parameters>
+		<param type="string">address</param>
+	</parameters>
+</policy_template>

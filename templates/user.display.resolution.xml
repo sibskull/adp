@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policy_template>
+	<id>user.display.resolution</id>
+	<name>Set the screen resolution</name>
+	<name xml:lang="ru">Настроить разрешение экрана</name>
+	<version>0.1</version>
+	<class>user</class>
+	<requires type="package">xrandr</requires>
+	<requires type="package">coreutils</requires>
+	<script>user.display.resolution.sh</script>
+	<parameters>
+		<param type="string">resolution</param>
+		<param type="double">rate</param>
+		<param type="string">rotate</param>
+		<param type="string">output</param>
+	</parameters>
+</policy_template>

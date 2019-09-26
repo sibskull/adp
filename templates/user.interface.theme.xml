@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policy_template>
+	<id>user.interface.theme</id>
+	<name>Set the desktop theme for user</name>
+	<name xml:lang="ru">Установить тему рабочего стола</name>
+	<version>0.1</version>
+	<class>user</class>
+	<requires type="de">mate</requires>
+	<requires de="mate" type="package">libgio</requires>
+	<script>user.interface.theme.sh</script>
+	<parameters>
+		<param type="string">theme</param>
+		<param type="string">icon</param>
+		<param type="string">panel_position</param>
+		<param type="string">window_decoration</param>
+	</parameters>
+</policy_template>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policy_template>
+	<id>su.accounts.add</id>
+	<name>Create local users</name>
+	<name xml:lang="ru">Создание локальных пользователей</name>
+	<version>0.1</version>
+	<class>su</class>
+	<requires type="package">shadow-utils</requires>
+	<script>su.accounts.add.sh</script>
+	<parameters>
+		<param type="string">user</param>
+		<param type="string">comment</param>
+		<param type="string">passwd</param>
+		<param type="string">additional_groups</param>
+		<param type="string">time_limit</param>
+		<param type="string">shell</param>
+	</parameters>
+</policy_template>
