@@ -15,6 +15,7 @@ BuildRequires: rpm-build-python3
 Requires: krb5-kinit
 Requires: samba-common-tools
 Requires: %name-templates
+Requires: python3-modules-sqlite3
 
 BuildArch: noarch
 
