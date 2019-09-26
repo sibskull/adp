@@ -33,8 +33,8 @@ Set of ALT Domain Policies templates.
 %setup
 
 %install
-install -Dm 0755 adp %buildroot%_bindir/adp
-install -Dm 0755 adp-functions %buildroot%_bindir/adp-functions
+install -Dm 0755 bin/adp %buildroot%_bindir/adp
+install -Dm 0755 bin/adp-functions %buildroot%_bindir/adp-functions
 mkdir -p %buildroot%_prefix/libexec/%name
 cp -av templates/* %buildroot%_prefix/libexec/%name
 install -d -m 0770 %buildroot%_logdir/%name
