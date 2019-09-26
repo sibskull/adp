@@ -11,7 +11,7 @@ Packager: Andrey Cherepanov <cas@altlinux.org>
 
 Source:   %name-%version.tar
 
-BuildRequires: rpm-build-python3
+BuildRequires(pre): rpm-build-python3
 Requires: krb5-kinit
 Requires: samba-common-tools
 Requires: %name-templates
@@ -35,6 +35,8 @@ Set of ALT Domain Policies templates.
 %install
 install -Dm 0755 bin/adp %buildroot%_bindir/adp
 install -Dm 0755 bin/adp-functions %buildroot%_bindir/adp-functions
+mkdir -p %buildroot%python3_sitelibdir/%name
+cp -av lib/*.py %buildroot%python3_sitelibdir/%name
 mkdir -p %buildroot%_prefix/libexec/%name
 cp -av templates/* %buildroot%_prefix/libexec/%name
 install -d -m 0770 %buildroot%_logdir/%name
@@ -50,6 +52,9 @@ install -Dm0644 %name.service %buildroot%_unitdir/%name.service
 %attr(0770, root, users) %_logdir/%name
 %_sysconfdir/xdg/autostart/%name.desktop
 %_unitdir/%name.service
+%python3_sitelibdir/%name/__pycache__/*.pyc
+%python3_sitelibdir/%name
+#python3_sitelibdir/*.egg-info
 
 %files templates
 %_prefix/libexec/%name/*
