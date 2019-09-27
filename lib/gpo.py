@@ -115,14 +115,13 @@ class GPOList:
                 self.object_type = GPOObjectType.USER
                 self.type_dir = 'User'
 
-        logging.debug( "Get GPO for '%s' (%s)" % ( self.object_name, self.object_type ) )
+        # Fill obect information to config
         if cfg != None:
             cfg.object_name = self.object_name
             cfg.object_type = self.type_dir
 
         # Object name should be not empty
         if self.object_name == '':
-            logging.fatal( "GPO list requires user or machine name" )
             sys.exit( 1 )
 
     def fill( self ):
@@ -191,5 +190,11 @@ class GPOList:
     def apply( self ):
         """Apply GPO for object"""
         logging.debug( "Apply policies for %s" % ( self.object_name ) )
+
+        # Put policies to log
+        for i in self.list:
+            logging.debug( "  %s (%s)" % ( i.id, i.name ) )
+
+        # Apply each policy
         for i in self.list:
             i.apply()
