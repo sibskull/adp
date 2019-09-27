@@ -89,22 +89,21 @@ class GPOListCache:
 
 class GPOList:
     """Class for GPO list"""
-    def __init__( self, name='', object_type=GPOObjectType.UNKNOWN ):
+    def __init__( self, name=None, object_type=GPOObjectType.UNKNOWN ):
         self.list = []
         self.object_name = name
         self.object_type = object_type
         self.type_dir = ''
-        self.cache = GPOListCache( self.object_name )
         cfg = adp.config.configuration
 
         # Autodetect object_name if it is empty
-        if self.object_name == '':
+        if not self.object_name:
             if os.geteuid() == 0:
                 # Root privileges: this is machine name
                 self.object_name = socket.gethostname().split('.', 1)[0].upper() + '$'
             else:
                 self.object_name = getpass.getuser()
-        
+
         # Detect object_type
         if self.object_type == GPOObjectType.UNKNOWN:
             if self.object_name[-1:] == '$':
@@ -116,13 +115,16 @@ class GPOList:
                 self.type_dir = 'User'
 
         # Fill obect information to config
-        if cfg != None:
+        if cfg:
             cfg.object_name = self.object_name
             cfg.object_type = self.type_dir
 
         # Object name should be not empty
-        if self.object_name == '':
+        if not self.object_name:
             sys.exit( 1 )
+
+        # Create cache for object
+        self.cache = GPOListCache( self.object_name )
 
     def fill( self ):
         """Get GPO list for object"""
