@@ -66,7 +66,7 @@ class Template:
 
         return content
 
-    def execute( self, args ):
+    def execute( self, args=[] ):
         """Execute local template with specified arguments"""                                                                                           
         if self.template == '':
             logging.fatal( "Please, specify template name" )
@@ -76,6 +76,10 @@ class Template:
         cfg = adp.config.configuration
         if cfg == None:
             sys.exit( 1 )
+
+        # Fix passed None as args
+        if args == None:
+            args = []
 
         # Get file name of specified template and open it
         file_name = "%s/%s.xml" % ( cfg.TEMPLATE_PATH, self.template )
@@ -97,6 +101,9 @@ class Template:
             # TODO Check arguments
             a = args
             a.insert(0, script_file )
+
+            # Replace None items in args by ''
+            a = list( map( lambda x: '' if x == None else x, a ) )
 
             # Run script
             logging.debug( "Run script %s" % ( ' '.join( a ) ))
