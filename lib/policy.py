@@ -23,6 +23,7 @@ import sys
 import subprocess
 import adp.config
 import xml.etree.ElementTree as ET
+from adp.template import Template
 
 class Policy:
     """Class for policy instance"""
@@ -82,44 +83,7 @@ class Policy:
                 args.append( i.text )
 
             # Apply policy
-            if template != '':
-                logging.info( "Apply policy with template %s" % ( template ) )
-                self.execute_local_template( template, args )
+            logging.info( "Apply policy with template %s" % ( template ) )
+            t = Template( template )
+            t.execute( args )
 
-    def execute_local_template( self, template, args ):
-        """Apply local policy"""                                                                                           
-        if not template:
-            logging.fatal( "Please, specify template name" )
-            sys.exit( 1 )
-
-        cfg = adp.config.configuration
-        if cfg != None:
-            sys.exit( 1 )
-
-        # Get file name of specified template and open it
-        file_name = "%s/%s.xml" % ( cfg.TEMPLATE_PATH, template )
-        logging.debug( "Open template from %s" % ( file_name ) )
-        if not os.path.exists( file_name ):
-            logging.error( "File %s does not exist" % ( file_name ) )
-            return 1
-        try:
-            t = ET.parse( file_name )
-        except:
-            logging.error( "Unable to parse %s" % ( file_name ) )
-            return 1
-
-        # TODO Check class from <class> tag
-        # TODO Check requirements from <requires> tag(s)
-        script = t.find( "script" )
-        if script != None and script.text:
-            script_file = "%s/scripts/%s" % ( cfg.TEMPLATE_PATH, script.text )
-            # TODO Check arguments
-            a = args
-            a.insert(0, script_file )
-
-            # Run script
-            logging.debug( "Run script %s" % ( ' '.join( a ) ))
-            p = subprocess.Popen( a, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, stdin=subprocess.DEVNULL, close_fds=True )
-            output = p.stdout.read().decode()
-            logging.debug( output )
-        return 0
