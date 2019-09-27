@@ -1,0 +1,15 @@
+#!/bin/sh
+
+if [ -e /etc/sysconfig/adp ]
+then
+	. /etc/sysconfig/adp
+fi
+
+[ "$VERBOSE" == "yes" ] && ADP_VERBOSE=-v
+[ "$DEBUG" == "yes" ] && ADP_DEBUG=-d
+
+# Run adp fetch in session start
+if [ "$PAM_TYPE" == "open_session" ]
+then
+	/usr/bin/adp $ADP_VERBOSE $ADP_DEBUG fetch "$PAM_USER"
+fi

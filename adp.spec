@@ -35,6 +35,8 @@ Set of ALT Domain Policies templates.
 %install
 install -Dm 0755 bin/adp %buildroot%_bindir/adp
 install -Dm 0755 bin/adp-functions %buildroot%_bindir/adp-functions
+install -Dm 0755 sbin/adp-fetch %buildroot%_sbindir/adp-fetch
+install -Dm 0644 adp.sysconfig %buildroot%_sysconfdir/sysconfig/%name
 mkdir -p %buildroot%python3_sitelibdir/%name
 cp -av lib/*.py %buildroot%python3_sitelibdir/%name
 mkdir -p %buildroot%_prefix/libexec/%name
@@ -48,6 +50,8 @@ install -Dm0644 %name.service %buildroot%_unitdir/%name.service
 %doc examples
 %_bindir/%name
 %_bindir/adp-functions
+%_sbindir/adp-fetch
+%config(noreplace) %_sysconfdir/sysconfig/%name
 %dir %_prefix/libexec/%name
 %attr(0770, root, users) %_logdir/%name
 %_sysconfdir/xdg/autostart/%name.desktop
