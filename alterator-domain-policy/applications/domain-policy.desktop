@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Icon=console
+Terminal=false
+Name=Domain Policies
+X-Alterator-URI=/domain-policy
+X-Alterator-Help=domain-policy
+Name[ru]=Доменные политики
+Categories=X-Alterator-System
+X-Alterator-UI=html

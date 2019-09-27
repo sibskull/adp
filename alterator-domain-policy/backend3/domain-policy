@@ -1,0 +1,13 @@
+#!/bin/sh
+
+alterator_api_version=1
+
+. alterator-sh-functions
+
+on_message()
+{
+	case "$in_action" in
+	esac
+}
+
+message_loop
