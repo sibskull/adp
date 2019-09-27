@@ -27,6 +27,7 @@ from .policy import Policy
 import sqlite3
 import adp.config
 import shutil
+import getpass
 
 class GPOObjectType( Enum ):
     UNKNOWN = 0
