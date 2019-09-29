@@ -67,7 +67,6 @@ cd alterator-domain-policy
 %doc *.md
 %doc examples
 %_bindir/%name
-%_bindir/adp-functions
 %_sbindir/adp-fetch
 %config(noreplace) %_sysconfdir/sysconfig/%name
 %dir %_prefix/libexec/%name
@@ -79,6 +78,7 @@ cd alterator-domain-policy
 #python3_sitelibdir/*.egg-info
 
 %files templates
+%_bindir/adp-functions
 %_prefix/libexec/%name/*
 
 %files -n alterator-domain-policy
