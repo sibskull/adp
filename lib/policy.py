@@ -18,9 +18,6 @@
 
 import logging
 import os
-import re
-import sys
-import subprocess
 import adp.config
 import xml.etree.ElementTree as ET
 from adp.template import Template

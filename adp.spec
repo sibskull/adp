@@ -14,7 +14,7 @@ Source:   %name-%version.tar
 BuildRequires(pre): rpm-build-python3
 BuildRequires(pre): alterator
 Requires: krb5-kinit
-Requires: samba-common-tools
+Requires: samba-client
 Requires: %name-templates
 Requires: python3-modules-sqlite3
 
