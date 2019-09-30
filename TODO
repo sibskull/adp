@@ -1,7 +1,12 @@
-* apd-functions helper
-* get Linux.xml from GPO directory from sysvol share
-* check arguments passed to script
-* transport files from GPO directory from sysvol share
-* alterator module for ADP configuration
-* sync ADPs between share and local storage
-* more policies
+1. Share templates
+[root@dc0 ~]# mkdir /var/lib/samba/sysvol/alt.domain/templates
+[root@dc0 ~]# mount /usr/libexec/adp /var/lib/samba/sysvol/alt.domain/templates -o bind
+
+2. Sync templates before machine policy run
+
+3. Mandatory postscript policy (/var/lib/samba/sysvol/alt.domain/templates/Policies/postscript at the end
+
+4. alterator-domain-policy layout: Policies | { User }{ Machine }
+					      <all policies with sid, params, and active mark and checkbox>
+
+5. Run only active policies
