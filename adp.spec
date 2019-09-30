@@ -35,6 +35,7 @@ Summary: Alterator module for configure ALT Domain Policy
 Group: System/Configuration/Other
 Requires: alterator
 Requires: alterator-sh-functions
+Requires: alterator-net-domain
 Requires: alterator-l10n
 Requires: %name-templates
 

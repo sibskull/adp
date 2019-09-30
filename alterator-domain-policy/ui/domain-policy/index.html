@@ -3,20 +3,34 @@
 <html wf="none">
     <body>
 	<form method="POST">
-            <table style="width:100%">
+            <div name="noedit" class="alterator-attention-message" style="float:none;display:none">
+                <img src="/design/images/attention.gif"/>
+                <span translate="_">You must deploy Active Directory domain to use ALT Domain Policies.</span>
+                <br/>
+                <br/>
+                <a href="/net-domain"><span translate="_">Deploy Active Directory domain...</span></a>
+            </div>
+            <div name="edit"><table style="width:100%">
                 <tr>
                     <td><span translate="_" nameref="policy">Policies:</span></td>
                     <td><span translate="_" nameref="rule">Rules:</span></td>
-                    <td rowspan="2">
-                        <div name="details"></div>
-                    </td>
+                    <td><span translate="_">Rule:</span></td>
                 </tr>
                 <tr>
-                    <td style="width:200px" rowspan="2">
+                    <td style="width:300px" rowspan="2">
                         <select name="policy" size="26" style="width:95%"/>
                     </td>
-                    <td style="width:200px">
+                    <td style="width:300px">
                         <select name="rule" size="24" style="width:95%"/>
+                    </td>
+                    <td rowspan="2">
+                        <table width="100%">
+                            <tr><td>&nbsp;<span translate="_" nameref="template">Template:</span></td></tr>
+                            <tr><td><select name="template" size="1"  style="width:95%"/></td></tr>
+                            <tr style="height:45%"><td>&nbsp;<span translate="_" nameref="parameters">Parameters:</span></td></tr>
+                            <tr><td><textarea name="parameters" rows="12" style="width:95%"/></td></tr>
+                            <tr style="height:45%"><td><div name="help">&nbsp;</div></td></tr>
+                        </table>
                     </td>
                 </tr>
                 <tr>
@@ -25,7 +39,7 @@
                         <input type="button" name="remove_button" value="Remove rule" class="btn"/>
                     </td>
                 </tr>
-            </table>
+            </table></div>
     </form>
   </body>
 </html>
