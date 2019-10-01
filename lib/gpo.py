@@ -28,6 +28,7 @@ import sqlite3
 import adp.config
 import shutil
 import getpass
+import grp
 
 class GPOObjectType( Enum ):
     UNKNOWN = 0
@@ -51,17 +52,27 @@ class GPOListCache:
         # Create database if it is not exist
         need_create_table = not os.path.isfile( self.filename )
 
-        # Open databse
+        # Open database
         conn = sqlite3.connect( self.filename )
         cursor = conn.cursor()
 
         # Create table for new database
         if need_create_table:
+            # Table for track GPO for objects
             cursor.execute("""CREATE TABLE gpo_list (
                 subject text,
                 id text,
                 name text,
                 location text
+               )""")
+            # Table for execution results
+            cursor.execute("""CREATE TABLE policy_run (
+                timestamp integer,
+                subject text,
+                policy text,
+                template text,
+                version text,
+                code text
                )""")
 
         # Remove old records for self.name
@@ -72,6 +83,10 @@ class GPOListCache:
         for i in list:
             cursor.execute( "INSERT INTO gpo_list VALUES(?,?,?,?)", ( self.name, i.id, i.name, i.location, ) )
             conn.commit()
+
+        # Set permissions writeable for group `users`
+        os.chown( self.filename, 0, grp.getgrnam('users')[2] )
+        os.chmod( self.filename, 660 )
 
     def read( self ):
         """Read list of Policy from sqlite3 database"""
