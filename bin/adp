@@ -69,6 +69,10 @@ if args.command in apply_commands:
     cfg.check_access()
     cfg.set_domain()
 
+    # Sync templates
+    if l.object_type == GPOObjectType.MACHINE:
+        l.sync_templates()
+
     # For fetch or for machine call fill_from_server() to fill local cache
     if args.command == 'fetch' or l.object_type == GPOObjectType.MACHINE:
         l.fill_from_server()

@@ -29,6 +29,7 @@ import adp.config
 import shutil
 import getpass
 import grp
+import tempfile
 
 class GPOObjectType( Enum ):
     UNKNOWN = 0
@@ -141,6 +142,39 @@ class GPOList:
 
         # Create cache for object
         self.cache = GPOListCache( self.object_name )
+
+    def sync_templates( self ):
+        """Sync from //dc/sysvol/domain-name/templates to /usr/libexec/adp/"""
+        if os.geteuid() != 0:
+            logging.error( "Unable to sync templates without root permissions" )
+            return 1
+
+        tmp = tempfile.mkdtemp()
+        cfg = adp.config.configuration
+        if cfg == None:
+            logging.fatal( "Unable to read configuration" )
+            return 1
+        server = cfg.dc
+        share = 'sysvol'
+        connection = "//%s/%s" % ( server, share )
+        
+        l_path = cfg.TEMPLATE_PATH + '/'
+        r_path = os.path.join( tmp, cfg.domain, 'templates' ) + '/'
+
+        # mount -t cifs //dc0.alt.domain/sysvol /tmp/aa -o sec=krb5,ro
+        cmd = [ 'mount', '-t', 'cifs', connection, tmp, '-o', 'sec=krb5,ro' ]
+        logging.debug( ''.join( cmd ) )
+        output = subprocess.check_output( cmd, stderr=subprocess.STDOUT ).decode()
+
+        # rsync content
+        if os.path.isdir( r_path ):
+            cmd = [ 'rsync', '-vaP', '--delete', r_path, l_path ]
+            logging.debug( ''.join( cmd ) )
+            output = subprocess.check_output( cmd, stderr=subprocess.STDOUT ).decode()
+            logging.debug( output )
+
+        # Umount share
+        output = subprocess.check_output( [ 'umount', tmp ], stderr=subprocess.STDOUT ).decode()
 
     def fill( self ):
         """Get GPO list for object"""
