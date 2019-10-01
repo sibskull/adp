@@ -176,6 +176,7 @@ class GPOList:
         server = cfg.dc
         share = 'sysvol'
         connection = "//%s/%s" % ( server, share )
+        new_list = []
         for pol in self.list:
 
             # Check if pol.location is empty
@@ -184,25 +185,37 @@ class GPOList:
                 continue
 
             # Remove cached policy directory, create empty directory and change directory
-            l_path = os.path.join( cfg.CACHED_DIR, pol.id )
+            l_path = os.path.join( cfg.CACHED_DIR, pol.id, self.type_dir )
             logging.info( "Cache policy content to %s" % ( l_path ) )
             shutil.rmtree( l_path, ignore_errors=True )
             os.makedirs( l_path )
             os.chdir( l_path ) 
 
             try:
-                # Use recursuve get directory content for policy by smbclient
-                r_path = os.path.join( cfg.domain, 'Policies', pol.id )
-                logging.debug( "Sync from %s/%s to %s" % ( connection, r_path, l_path ) )
-                cmd = [ 'smbclient', '-N', '-k', connection, '-c', "prompt OFF;recurse ON;cd \"%s\";mget *" % ( r_path ) ]
-                subprocess.call( cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, stdin=subprocess.DEVNULL )
+                # Download only Linux.xml in User or Machine subdirectory of policy by smbclient
+                r_path = os.path.join( cfg.domain, 'Policies', pol.id, self.type_dir )
+                r_file = "Linux.xml"
+                logging.debug( "Sync from %s/%s/%s to %s" % ( connection, r_path, r_file, l_path ) )
+                cmd = [ 'smbclient', '-N', '-k', connection, '-c', "prompt OFF;cd %s;get %s" % ( r_path.replace( '/', '\\' ), r_file ) ]
+                logging.debug( ' '.join( cmd ) )
+                ret = subprocess.call( cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, stdin=subprocess.DEVNULL )
+                if ret != 0:
+                    raise Exception( 'Error fetch: %d, policy %s is ignored' % ( ret, pol.id ) )
+                else:
+                    logging.debug( "Saved %s/%s (%d bytes)" % ( l_path, r_file, os.stat( r_file ).st_size ) )
             except Exception as e:
+                # Error cache policy - remove from list
                 logging.error( "Unable to cache %s: %s" % ( l_path, e ) )
+                continue
 
             # Store cached dir to Policy object
-            pol.location = os.path.join( l_path, self.type_dir )
+            pol.location = l_path
 
-        # Put list in cache
+            # Cached policy is store to new_list
+            new_list.append( pol )
+
+        # Put new_list in cache
+        self.list = new_list
         self.cache.write( self.list )
 
     def apply( self ):
