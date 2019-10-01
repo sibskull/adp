@@ -168,6 +168,11 @@ class GPOList:
             elif param == 'filesyspath' and i:
                 i.location = value
 
+        # Add mandatory hidden postscript policy
+        postscript = Policy( 'postscript' )
+        postscript.name = 'postscript'
+        self.list.append( postscript )
+
         # Sync policies from server to cached dir
         cfg = adp.config.configuration
         if cfg == None:
