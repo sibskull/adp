@@ -110,4 +110,5 @@ class Template:
             p = subprocess.Popen( a, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, stdin=subprocess.DEVNULL, close_fds=True )
             output = p.stdout.read().decode()
             logging.debug( output )
+            return p
         return 0

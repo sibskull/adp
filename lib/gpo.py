@@ -30,6 +30,7 @@ import shutil
 import getpass
 import grp
 import tempfile
+import time
 
 class GPOObjectType( Enum ):
     UNKNOWN = 0
@@ -73,7 +74,7 @@ class GPOListCache:
                 policy text,
                 template text,
                 version text,
-                code text
+                code integer
                )""")
 
         # Remove old records for self.name
@@ -87,7 +88,7 @@ class GPOListCache:
 
         # Set permissions writeable for group `users`
         os.chown( self.filename, 0, grp.getgrnam('users')[2] )
-        os.chmod( self.filename, 660 )
+        os.chmod( self.filename, 0o660 )
 
     def read( self ):
         """Read list of Policy from sqlite3 database"""
@@ -103,6 +104,14 @@ class GPOListCache:
             list.append( p )
         
         return list
+
+    def log_result( self, policy, template, version, code ):
+        """Put to table `policy_run` each template execution result"""
+        # Open databse
+        conn = sqlite3.connect( self.filename )
+        cursor = conn.cursor()
+        cursor.execute( "INSERT INTO policy_run VALUES(?,?,?,?,?,?)", ( int( time.time() ), self.name, policy, template, version, code ) )
+        conn.commit()
 
 class GPOList:
     """Class for GPO list"""
@@ -142,6 +151,7 @@ class GPOList:
 
         # Create cache for object
         self.cache = GPOListCache( self.object_name )
+        cfg.cache = self.cache
 
     def sync_templates( self ):
         """Sync from //dc/sysvol/domain-name/templates to /usr/libexec/adp/"""
