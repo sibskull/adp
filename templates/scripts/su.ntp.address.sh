@@ -2,6 +2,6 @@
 
 . adp-functions
 
-ADDRESS="$1"
+ADDRESS="$1" # you can specify multiple addresses with a space
 
-timedatectl --host="$ADDRESS"
+sed "2i\'$ADDRESS'" /etc/systemd/timesyncd.conf

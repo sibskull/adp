@@ -6,7 +6,8 @@
 	<name xml:lang="ru">Добавить адрес NTP-сервера</name>
 	<version>0.1</version>
 	<class>su</class>
-	<requires type="package">systemd-services</requires>
+	<requires type="package">sed</requires>
+	<requires type="package">systemd-timesyncd</requires>
 	<script>su.ntp.address.sh</script>
 	<parameters>
 		<param type="string">address</param>
