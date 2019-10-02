@@ -269,7 +269,7 @@ class GPOList:
 
     def apply( self ):
         """Apply GPO for object"""
-        logging.debug( "Apply policies for %s" % ( self.object_name ) )
+        logging.debug( "Apply policies for %s (found %d)" % ( self.object_name, len( self.list) ) )
 
         # Put policies to log
         for i in self.list:
