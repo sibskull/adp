@@ -4,4 +4,4 @@
 
 FILE="$1"
 
-rm -f $FILE
+rm -f "$FILE"

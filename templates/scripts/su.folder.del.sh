@@ -4,4 +4,4 @@
 
 DIR="$1"
 
-rm -rf $DIR
+rm -rf "$DIR"

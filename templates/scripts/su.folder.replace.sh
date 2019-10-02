@@ -5,4 +5,4 @@
 FROM_DIR="$1"
 TO_DIR="$2"
 
-mv -f $FROM_DIR $TO_DIR
+mv -f "$FROM_DIR" "$TO_DIR"

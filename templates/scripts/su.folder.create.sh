@@ -4,4 +4,4 @@
 
 DIR="$1"
 
-mkdir -p $DIR
+mkdir -p "$DIR"

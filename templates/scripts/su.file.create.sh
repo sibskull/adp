@@ -5,5 +5,5 @@
 FILE="$1"
 DIR="$2"
 
-touch $FILE
-mv $FILE $DIR
+touch "$FILE"
+mv "$FILE" "$DIR"

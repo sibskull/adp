@@ -4,4 +4,4 @@
 
 ADDRESS="$1"
 
-timedatectl --host={$ADDRESS}
+timedatectl --host="$ADDRESS"
