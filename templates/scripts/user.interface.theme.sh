@@ -10,5 +10,5 @@ WINDOW_DECORATION="$4"
 
 gsettings set org.mate.interface gtk-theme $THEME
 gsettings set org.mate.interface icon-theme $ICON
-gsettings set org.mate.panel.toplevel:/org/mate/panel/toplevels/bottom orientation $PANEL_POSITION
+gsettings set org.mate.panel.toplevel:/org/mate/panel/toplevels/bottom/ orientation $PANEL_POSITION
 gsettings set org.mate.Marco.general theme $WINDOW_DECORATION
