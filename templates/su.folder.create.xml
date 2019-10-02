@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policy_template>
+	<id>su.folder.create</id>
+	<name>Create new folder</name>
+	<name xml:lang="ru">Создать новый каталог</name>
+	<version>0.1</version>
+	<class>su</class>
+	<requires type="package">coreutils</requires>
+	<script>su.folder.create.sh</script>
+	<parameters>
+		<param type="string">dir</param>
+	</parameters>
+</policy_template>

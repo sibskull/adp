@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policy_template>
+	<id>su.file.del</id>
+	<name>Delete the file</name>
+	<name xml:lang="ru">Удалить файл</name>
+	<version>0.1</version>
+	<class>su</class>
+	<requires type="package">coreutils</requires>
+	<script>su.file.del.sh</script>
+	<parameters>
+		<param type="string">file</param>
+	</parameters>
+</policy_template>
