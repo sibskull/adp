@@ -2,8 +2,8 @@
 
 <policy_template>
 	<id>su.ssh.port</id>
-	<name>Enable the SSH server</name>
-	<name xml:lang="ru">Включить SSH-сервер</name>
+	<name>Change the SSH server port</name>
+	<name xml:lang="ru">Изменить порт SSH-сервера</name>
 	<version>0.1</version>
 	<class>su</class>
 <!--	<requires type="package">systemd-utils</requires>-->

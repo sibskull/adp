@@ -2,8 +2,8 @@
 
 <policy_template>
 	<id>su.ssh.switch</id>
-	<name>Enable the SSH server</name>
-	<name xml:lang="ru">Включить SSH-сервер</name>
+	<name>Enable/disable the SSH server</name>
+	<name xml:lang="ru">Включить/отключить SSH-сервер</name>
 	<version>0.1</version>
 	<class>su</class>
 	<requires type="package">systemd-utils</requires>

@@ -12,7 +12,7 @@ if (grep -ru "^#AllowUsers" $conf); then
 elif (grep -ru "^AllowUsers" $conf); then
     sed -i "s|^AllowUsers.*|AllowUsers $USER|" $conf
 else
-    echo "Port $USER" >> $conf
+    echo "AllowUsers $USER" >> $conf
 fi
 
 if (grep -ru "^#AllowGroups" $conf); then
@@ -20,5 +20,5 @@ if (grep -ru "^#AllowGroups" $conf); then
 elif (grep -ru "^AllowGroups" $conf); then
     sed -i "s|^AllowGroups.*|AllowGroups $GROUP|" $conf
 else
-    echo "Port $GROUP" >> $conf
+    echo "AllowGroups $GROUP" >> $conf
 fi

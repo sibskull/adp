@@ -4,9 +4,12 @@
 
 PORT="$1" # the port number
 
-if "[ $( $(grep -ru Port /etc/openssh/sshd_config) == Port*) = 1 ]"
-then
-	sed -n "s|#Port|Port $PORT|w output" /etc/openssh/sshd_config
+conf="/etc/openssh/sshd_config"
+
+if (grep -ru "^#Port" $conf); then
+    sed -i "s|^#Port.*|Port $PORT|" $conf
+elif (grep -ru "^Port" $conf); then
+    sed -i "s|^Port.*|Port $PORT|" $conf
 else
-	sed -n "s|Port|Port $PORT|w output" /etc/openssh/sshd_config
+    echo "Port $PORT" >> $conf
 fi

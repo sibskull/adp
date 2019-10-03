@@ -13,6 +13,6 @@
 		<param type="string">resolution</param>
 		<param type="double">rate</param>
 		<param type="string">rotate</param>
-		<param type="string">output</param>
+		<param type="string" optional="yes">output</param>
 	</parameters>
 </policy_template>
