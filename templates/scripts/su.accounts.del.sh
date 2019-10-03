@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. adp-functions
+. bin/adp-functions
 
 USER="$1" #account name
 

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. adp-functions
+. bin/adp-functions
 
 FILE="$1"
 DIR="$2"

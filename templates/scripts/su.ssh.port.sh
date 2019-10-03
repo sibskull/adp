@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. adp-functions
+. bin/adp-functions
 
 PORT="$1" # the port number
 

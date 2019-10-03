@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. adp-functions
+. bin/adp-functions
 
 SWITCH="$1" # true/false
 
