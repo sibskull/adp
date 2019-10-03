@@ -9,8 +9,10 @@
 	<requires type="package">openssh-server</requires>
 	<requires type="package">sed</requires>
 	<requires type="package">grep</requires>
+	<requires type="package">systemd-utils</requires>
 	<script>su.ssh.access.sh</script>
 	<parameters>
+		<param type="boolen">switch</param>
 		<param type="string">user</param>
 		<param type="string">group</param>
 	</parameters>
