@@ -7,10 +7,11 @@
 	<version>0.1</version>
 	<class>user</class>
 	<requires type="de">mate</requires>
-	<requires type="package">xdg-user-dirs</requires>
+	<requires de="mate" type="package">xdg-user-dirs</requires>
+	<requires de="mate" type="package">libgio</requires>
 	<script>user.background.image.sh</script>
 	<parameters>
 		<param type="string">image</param>
-		<param type="string" optional="yes">location</param>
+		<param type="string">location</param>
 	</parameters>
 </policy_template>

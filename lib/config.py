@@ -39,6 +39,7 @@ class Config:
         configuration = self
         self.object_name = ''
         self.object_type = ''
+        self.cache = None
 
     def set_domain( self, name=None ):
         """Set domain name or detect it"""

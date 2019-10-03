@@ -35,6 +35,7 @@ Summary: Alterator module for configure ALT Domain Policy
 Group: System/Configuration/Other
 Requires: alterator
 Requires: alterator-sh-functions
+Requires: alterator-net-domain
 Requires: alterator-l10n
 Requires: %name-templates
 
@@ -73,7 +74,6 @@ cd alterator-domain-policy
 %attr(0770, root, users) %_logdir/%name
 %_sysconfdir/xdg/autostart/%name.desktop
 %_unitdir/%name.service
-%python3_sitelibdir/%name/__pycache__/*.pyc
 %python3_sitelibdir/%name
 #python3_sitelibdir/*.egg-info
 

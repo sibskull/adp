@@ -28,6 +28,9 @@ import sqlite3
 import adp.config
 import shutil
 import getpass
+import grp
+import tempfile
+import time
 
 class GPOObjectType( Enum ):
     UNKNOWN = 0
@@ -51,17 +54,27 @@ class GPOListCache:
         # Create database if it is not exist
         need_create_table = not os.path.isfile( self.filename )
 
-        # Open databse
+        # Open database
         conn = sqlite3.connect( self.filename )
         cursor = conn.cursor()
 
         # Create table for new database
         if need_create_table:
+            # Table for track GPO for objects
             cursor.execute("""CREATE TABLE gpo_list (
                 subject text,
                 id text,
                 name text,
                 location text
+               )""")
+            # Table for execution results
+            cursor.execute("""CREATE TABLE policy_run (
+                timestamp integer,
+                subject text,
+                policy text,
+                template text,
+                version text,
+                code integer
                )""")
 
         # Remove old records for self.name
@@ -72,6 +85,10 @@ class GPOListCache:
         for i in list:
             cursor.execute( "INSERT INTO gpo_list VALUES(?,?,?,?)", ( self.name, i.id, i.name, i.location, ) )
             conn.commit()
+
+        # Set permissions writeable for group `users`
+        os.chown( self.filename, 0, grp.getgrnam('users')[2] )
+        os.chmod( self.filename, 0o660 )
 
     def read( self ):
         """Read list of Policy from sqlite3 database"""
@@ -87,6 +104,14 @@ class GPOListCache:
             list.append( p )
         
         return list
+
+    def log_result( self, policy, template, version, code ):
+        """Put to table `policy_run` each template execution result"""
+        # Open databse
+        conn = sqlite3.connect( self.filename )
+        cursor = conn.cursor()
+        cursor.execute( "INSERT INTO policy_run VALUES(?,?,?,?,?,?)", ( int( time.time() ), self.name, policy, template, version, code ) )
+        conn.commit()
 
 class GPOList:
     """Class for GPO list"""
@@ -126,6 +151,40 @@ class GPOList:
 
         # Create cache for object
         self.cache = GPOListCache( self.object_name )
+        cfg.cache = self.cache
+
+    def sync_templates( self ):
+        """Sync from //dc/sysvol/domain-name/templates to /usr/libexec/adp/"""
+        if os.geteuid() != 0:
+            logging.error( "Unable to sync templates without root permissions" )
+            return 1
+
+        tmp = tempfile.mkdtemp()
+        cfg = adp.config.configuration
+        if cfg == None:
+            logging.fatal( "Unable to read configuration" )
+            return 1
+        server = cfg.dc
+        share = 'sysvol'
+        connection = "//%s/%s" % ( server, share )
+        
+        l_path = cfg.TEMPLATE_PATH + '/'
+        r_path = os.path.join( tmp, cfg.domain, 'templates' ) + '/'
+
+        # mount -t cifs //dc0.alt.domain/sysvol /tmp/aa -o sec=krb5,ro
+        cmd = [ 'mount', '-t', 'cifs', connection, tmp, '-o', 'sec=krb5,ro' ]
+        logging.debug( ''.join( cmd ) )
+        output = subprocess.check_output( cmd, stderr=subprocess.STDOUT ).decode()
+
+        # rsync content
+        if os.path.isdir( r_path ):
+            cmd = [ 'rsync', '-vaP', '--delete', r_path, l_path ]
+            logging.debug( ''.join( cmd ) )
+            output = subprocess.check_output( cmd, stderr=subprocess.STDOUT ).decode()
+            logging.debug( output )
+
+        # Umount share
+        output = subprocess.check_output( [ 'umount', tmp ], stderr=subprocess.STDOUT ).decode()
 
     def fill( self ):
         """Get GPO list for object"""
@@ -153,6 +212,11 @@ class GPOList:
             elif param == 'filesyspath' and i:
                 i.location = value
 
+        # Add mandatory hidden postscript policy
+        postscript = Policy( 'postscript' )
+        postscript.name = 'postscript'
+        self.list.append( postscript )
+
         # Sync policies from server to cached dir
         cfg = adp.config.configuration
         if cfg == None:
@@ -161,6 +225,7 @@ class GPOList:
         server = cfg.dc
         share = 'sysvol'
         connection = "//%s/%s" % ( server, share )
+        new_list = []
         for pol in self.list:
 
             # Check if pol.location is empty
@@ -169,30 +234,42 @@ class GPOList:
                 continue
 
             # Remove cached policy directory, create empty directory and change directory
-            l_path = os.path.join( cfg.CACHED_DIR, pol.id )
+            l_path = os.path.join( cfg.CACHED_DIR, pol.id, self.type_dir )
             logging.info( "Cache policy content to %s" % ( l_path ) )
             shutil.rmtree( l_path, ignore_errors=True )
             os.makedirs( l_path )
             os.chdir( l_path ) 
 
             try:
-                # Use recursuve get directory content for policy by smbclient
-                r_path = os.path.join( cfg.domain, 'Policies', pol.id )
-                logging.debug( "Sync from %s/%s to %s" % ( connection, r_path, l_path ) )
-                cmd = [ 'smbclient', '-N', '-k', connection, '-c', "prompt OFF;recurse ON;cd \"%s\";mget *" % ( r_path ) ]
-                subprocess.call( cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, stdin=subprocess.DEVNULL )
+                # Download only Linux.xml in User or Machine subdirectory of policy by smbclient
+                r_path = os.path.join( cfg.domain, 'Policies', pol.id, self.type_dir )
+                r_file = "Linux.xml"
+                logging.debug( "Sync from %s/%s/%s to %s" % ( connection, r_path, r_file, l_path ) )
+                cmd = [ 'smbclient', '-N', '-k', connection, '-c', "prompt OFF;cd %s;get %s" % ( r_path.replace( '/', '\\' ), r_file ) ]
+                logging.debug( ' '.join( cmd ) )
+                ret = subprocess.call( cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, stdin=subprocess.DEVNULL )
+                if ret != 0:
+                    raise Exception( 'Error fetch: %d, policy %s is ignored' % ( ret, pol.id ) )
+                else:
+                    logging.debug( "Saved %s/%s (%d bytes)" % ( l_path, r_file, os.stat( r_file ).st_size ) )
             except Exception as e:
+                # Error cache policy - remove from list
                 logging.error( "Unable to cache %s: %s" % ( l_path, e ) )
+                continue
 
             # Store cached dir to Policy object
-            pol.location = os.path.join( l_path, self.type_dir )
+            pol.location = l_path
 
-        # Put list in cache
+            # Cached policy is store to new_list
+            new_list.append( pol )
+
+        # Put new_list in cache
+        self.list = new_list
         self.cache.write( self.list )
 
     def apply( self ):
         """Apply GPO for object"""
-        logging.debug( "Apply policies for %s" % ( self.object_name ) )
+        logging.debug( "Apply policies for %s (found %d)" % ( self.object_name, len( self.list) ) )
 
         # Put policies to log
         for i in self.list:

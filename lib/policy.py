@@ -74,6 +74,12 @@ class Policy:
         for policy in t.findall( 'policy' ):
             # Get template name
             template = policy.find( 'template' ).text
+            # Get policy version
+            v = policy.find( 'version' )
+            if v != None:
+                version = v.text
+            else:
+                version = ''
             # Fill arguments
             args = []
             for i in policy.findall( 'param' ):
@@ -82,5 +88,8 @@ class Policy:
             # Apply policy
             logging.info( "Apply policy with template %s" % ( template ) )
             t = Template( template )
-            t.execute( args )
+            result = t.execute( args )
 
+            # Put result to database
+            if cfg.cache != None:
+                cfg.cache.log_result( self.name, template, version, result )

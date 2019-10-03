@@ -107,7 +107,9 @@ class Template:
 
             # Run script
             logging.debug( "Run script %s" % ( ' '.join( a ) ))
-            p = subprocess.Popen( a, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, stdin=subprocess.DEVNULL, close_fds=True )
+            p = subprocess.Popen( a, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, stdin=subprocess.DEVNULL, shell=True )
             output = p.stdout.read().decode()
-            logging.debug( output )
+            p.wait()
+            logging.debug( "Return code %d: %s" % ( p.returncode, output ) )
+            return p.returncode
         return 0
