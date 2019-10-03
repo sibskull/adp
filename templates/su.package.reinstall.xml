@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policy_template>
+	<id>su.package.install</id>
+	<name>Reinstall the specified packages</name>
+	<name xml:lang="ru">Переустановить указанные пакеты</name>
+	<version>0.1</version>
+	<class>su</class>
+	<requires type="package">apt</requires>
+	<script>su.package.reinstall.sh</script>
+	<parameters>
+		<param type="string">packages</param>
+	</parameters>
+</policy_template>
