@@ -7,8 +7,9 @@ PASSWD="$2"
 
 #You need to pass the encrypted password for the utility. If you pass the password in the clear, then nothing will not work.
 #generate random characters for the encryption password
-PASSWD_RANDOM=$(openssl rand -base64 32)
-#generate the password
-PASSWD_ENCRYPT=$(perl -e 'print crypt($PASSWD, $PASSWD_RANDOM),"\n"')
+#To generate a password hash using crypt and python3
+PASSWD_ENCRYPT=$(python3 -c "import random,string,crypt;
+randomsalt = ''.join(random.sample(string.ascii_letters,8));
+print crypt.crypt('$PASSWD', '\$6\$%s\$' % randomsalt)")
 
-usergroup $PASSWD_ENCRYPT $GROUP
+groupadd -p "$PASSWD_ENCRYPT" "$GROUP"

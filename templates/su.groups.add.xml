@@ -7,8 +7,8 @@
 	<version>0.1</version>
 	<class>su</class>
 	<requires type="package">shadow-utils</requires>
-	<requires type="package">perl-base</requires>
-	<requires type="package">openssl</requires>
+	<requires type="package">python3-module-salt</requires>
+	<requires type="package">vmail-tools</requires>
 	<script>su.groups.add.sh</script>
 	<parameters>
 		<param type="string">group</param>

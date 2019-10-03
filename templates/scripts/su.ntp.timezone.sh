@@ -4,4 +4,4 @@
 
 ZONE="$1" # example: Europe/Moscow
 
-timedatectl set-timezone $ZONE
+timedatectl set-timezone "$ZONE"
