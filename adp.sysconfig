@@ -1,0 +1,5 @@
+# Verbose log
+VERBOSE="yes"
+
+# Debug output
+DEBUG="no"

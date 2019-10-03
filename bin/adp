@@ -1,0 +1,101 @@
+#!/usr/bin/python3
+
+# Script for apply ALT Domain Policies
+# Copyright (C) 2019 Andrey Cherepanov <cas@altlinux.org>
+
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later
+# version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+# details.
+#
+# You should have received a copy of the GNU General Public License along with
+# this program. If not, see http://www.gnu.org/licenses/.
+
+import logging
+import argparse
+import os
+
+from adp.config import Config
+from adp.gpo import GPOList, GPOObjectType
+from adp.template import Template
+
+# Init global configuration
+cfg = Config()
+
+# Commands list
+apply_commands = [ 'apply', 'fetch' ]
+local_commands = [ 'list', 'show', 'execute' ]
+
+# Read command-line parameters
+parser = argparse.ArgumentParser(
+    description='Script for apply ALT Domain Policies',
+    formatter_class=argparse.RawDescriptionHelpFormatter )
+
+parser.add_argument( '-v', action='store_true', dest='verbose',   help='Verbose output' )
+parser.add_argument( '-d', action='store_true', dest='debug',     help='Debug output' )
+parser.add_argument( 'command', choices=apply_commands+local_commands, help='Apply or fetch policies, list local templates, show or execute local template' )
+parser.add_argument( 'object', nargs='?', help='Name of user, machine or template (optional)' )
+parser.add_argument( 'args', nargs='*', help='Arguments for apply command (optional)' )
+parser.add_argument( '--version', action='version', version=cfg.VERSION )
+
+args = parser.parse_args()
+# Logging
+log_level = logging.ERROR
+if args.verbose:
+    log_level = logging.INFO
+if args.debug:
+    log_level = logging.DEBUG
+
+if args.command in apply_commands:
+    # Apply commands should write in log files
+    
+    # Create GPOList instance
+    l = GPOList( args.object )
+
+    # Set filename for logging
+    log = os.path.join( cfg.LOG_DIR, l.object_name )
+    if args.command == 'fetch':
+        log = log + '-fetch'
+    log = log + '.log'
+
+    logging.basicConfig( filename = log, format = '%(asctime)s %(message)s', level = log_level )
+
+    # Check access and set domain
+    cfg.check_access()
+    cfg.set_domain()
+
+    # Sync templates
+    if l.object_type == GPOObjectType.MACHINE:
+        l.sync_templates()
+
+    # For fetch or for machine call fill_from_server() to fill local cache
+    if args.command == 'fetch' or l.object_type == GPOObjectType.MACHINE:
+        l.fill_from_server()
+
+    # For apply command need to fill from local cache and perform apply
+    if args.command == 'apply':
+        l.fill()
+        l.apply()
+
+else:
+    # Put output to stdout
+    logging.basicConfig( format = '%(message)s', level = log_level )
+
+    # Create instance of Template object
+    t = Template( args.object )
+
+    # Process command
+    if args.command == 'list':
+        for i in t.list():
+            print( i )
+
+    elif args.command == 'show':
+        print( t.content() )
+
+    elif args.command == 'apply':
+        t.execute( args.args )

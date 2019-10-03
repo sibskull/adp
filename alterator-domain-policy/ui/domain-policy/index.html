@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
+<!-- domain-policy module -->
+<html wf="none">
+    <body>
+	<form method="POST">
+            <div name="noedit" class="alterator-attention-message" style="float:none;display:none">
+                <img src="/design/images/attention.gif"/>
+                <span translate="_">You must deploy Active Directory domain to use ALT Domain Policies.</span>
+                <br/>
+                <br/>
+                <a href="/net-domain"><span translate="_">Deploy Active Directory domain...</span></a>
+            </div>
+            <div name="edit"><table style="width:100%">
+                <tr>
+                    <td><span translate="_" nameref="policy">Policies:</span></td>
+                    <td><span translate="_" nameref="rule">Rules:</span></td>
+                    <td><span translate="_">Rule:</span></td>
+                </tr>
+                <tr>
+                    <td style="width:300px" rowspan="2">
+                        <select name="policy" size="26" style="width:95%"/>
+                    </td>
+                    <td style="width:300px">
+                        <select name="rule" size="24" style="width:95%"/>
+                    </td>
+                    <td rowspan="2">
+                        <table width="100%">
+                            <tr><td>&nbsp;<span translate="_" nameref="template">Template:</span></td></tr>
+                            <tr><td><select name="template" size="1"  style="width:95%"/></td></tr>
+                            <tr style="height:45%"><td>&nbsp;<span translate="_" nameref="parameters">Parameters:</span></td></tr>
+                            <tr><td><textarea name="parameters" rows="12" style="width:95%"/></td></tr>
+                            <tr style="height:45%"><td><div name="help">&nbsp;</div></td></tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="button" name="add_button" value="Add rule" class="btn"/>
+                        <input type="button" name="remove_button" value="Remove rule" class="btn"/>
+                    </td>
+                </tr>
+            </table></div>
+    </form>
+  </body>
+</html>
