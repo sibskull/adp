@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policy_template>
+	<id>su.kernel.update</id>
+	<name>Upgrade the kernel</name>
+	<name xml:lang="ru">Обновить ядро</name>
+	<version>0.1</version>
+	<class>su</class>
+	<requires type="package">update-kernel</requires>
+	<script>su.kernel.update.sh</script>
+	<parameters>
+	</parameters>
+</policy_template>

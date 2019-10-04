@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. adp-functions
+. bin/adp-functions
 
 FROM_DIR="$1"
 TO_DIR="$2"

@@ -3,7 +3,7 @@
 <policy_template>
 	<id>su.crontab.task</id>
 	<name>Add script to cron</name>
-	<name xml:lang="ru">Добавление скпирта в cron</name>
+	<name xml:lang="ru">Добавление скрипта в cron</name>
 	<version>0.1</version>
 	<class>su</class>
 	<requires type="package">vixie-cron</requires>
