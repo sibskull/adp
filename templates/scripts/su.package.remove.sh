@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. bin/adp-functions
+. adp-functions
 
 CLEAN_SETTINGS="$1" # clean the settings of removed packages
 PACKAGES="$2" # list of packages for remove

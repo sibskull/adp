@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. bin/adp-functions
+. adp-functions
 
 SWITCH="$1" # true (allow access) / false (deny access)
 USER="$2"

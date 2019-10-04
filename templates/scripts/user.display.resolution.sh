@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. bin/adp-functions
+. adp-functions
 
 # Set the screen resolution and the refresh rate of the monitor for user
 RESOLUTION="$1" # 1920x1080

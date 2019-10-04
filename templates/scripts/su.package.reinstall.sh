@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. bin/adp-functions
+. adp-functions
 
 PACKAGES="$1" # list of packages for re-installation
 

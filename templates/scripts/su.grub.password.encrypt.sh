@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. bin/adp-functions
+. adp-functions
 
 PASSWORD="$1"
 USERS="$2" # who is allowed to login (comma separated)

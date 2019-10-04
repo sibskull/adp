@@ -1,5 +1,5 @@
 #!/bin/sh
 
-. bin/adp-functions
+. adp-functions
 
 apt-get update && apt-get dist-upgrade -y

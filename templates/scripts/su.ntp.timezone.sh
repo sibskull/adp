@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. bin/adp-functions
+. adp-functions
 
 ZONE="$1" # example: Europe/Moscow
 
