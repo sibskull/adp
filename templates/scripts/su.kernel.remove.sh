@@ -2,4 +2,4 @@
 
 . adp-functions
 
-remove-old-kernels
+remove-old-kernels -f

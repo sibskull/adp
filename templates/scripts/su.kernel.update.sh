@@ -2,4 +2,4 @@
 
 . adp-functions
 
-update-kernel
+update-kernel -f
