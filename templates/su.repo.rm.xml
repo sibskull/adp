@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policy_template>
+	<id>su.repo.add</id>
+	<name>Remove source to list of active repositories</name>
+	<name xml:lang="ru">Удалить источник из списка активных репозиториев</name>
+	<version>0.1</version>
+	<class>su</class>
+	<requires type="package">apt-repo</requires>
+	<script>su.repo.add.sh</script>
+	<parameters>
+		<param type="string">repo</param>
+	</parameters>
+</policy_template>

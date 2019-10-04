@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. adp-functions
+. bin/adp-functions
 
 ADDRESS="$1" # you can specify multiple addresses with a space
 

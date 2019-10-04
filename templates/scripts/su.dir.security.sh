@@ -1,9 +1,9 @@
 #!/bin/sh
 
-. adp-functions
+. bin/adp-functions
 
 DIR="$1"
 USER="$2"
 GROUP="$3"
 
-chown -R "$GROUP":"$USER" "$DIR"
+chown -R "$USER:"$GROUP"" "$DIR"

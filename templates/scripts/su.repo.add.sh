@@ -2,6 +2,6 @@
 
 . bin/adp-functions
 
-DIR="$1"
+REPO="$1"
 
-rm -rf "$DIR"
+apt-repo add "$REPO"

@@ -7,8 +7,8 @@
 	<version>0.1</version>
 	<class>su</class>
 	<requires type="package">sed</requires>
-	<requires type="package">vino</requires>
-<!--	<requires type="package">vino-mate</requires>-->
+	<requires type="package">vino-mate</requires>
+	<requires type="package">libgio</requires>
 	<script>su.vnc.access.sh</script>
 	<parameters>
 		<param type="boolen">switch</param>

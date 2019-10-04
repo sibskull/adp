@@ -1,9 +1,12 @@
 #!/bin/sh
 
-. adp-functions
+. bin/adp-functions
 
 SWITCH="$1" # true/false
+SOURCE="true"
 
-# Replace the value entered in line 22
-sed "22 s|false|'$SWITCH'|" /usr/share/glib-2.0/schemas/org.gnome.Vino.gschema.xml
-#sed " s||$SWITCH|" /usr/share/vino/vino-preferences.ui
+[ "$SWITCH" = true ] && SOURCE="false"
+
+# Replace the value entered in line 10 (vino-mate)
+sed -i "10 s|$SOURCE|$SWITCH|" /usr/share/glib-2.0/schemas/org.gnome.Vino.gschema.xml
+glib-compile-schemas /usr/share/glib-2.0/schemas

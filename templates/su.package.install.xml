@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policy_template>
+	<id>su.package.install</id>
+	<name>Install the specified packages</name>
+	<name xml:lang="ru">Установить указанные пакеты</name>
+	<version>0.1</version>
+	<class>su</class>
+	<requires type="package">apt</requires>
+	<script>su.package.install.sh</script>
+	<parameters>
+		<param type="string">packages</param>
+	</parameters>
+</policy_template>
