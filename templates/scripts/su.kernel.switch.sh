@@ -4,4 +4,4 @@
 
 KERNEL="$1" # std-def/un-def
 
-update-kernel -t "$KERNEL"
+update-kernel -t "$KERNEL" -f
