@@ -2,44 +2,69 @@
 <!-- domain-policy module -->
 <html wf="none">
     <body>
-	<form method="POST">
-            <div name="noedit" class="alterator-attention-message" style="float:none;display:none">
-                <img src="/design/images/attention.gif"/>
-                <span translate="_">You must deploy Active Directory domain to use ALT Domain Policies.</span>
-                <br/>
-                <br/>
-                <a href="/net-domain"><span translate="_">Deploy Active Directory domain...</span></a>
-            </div>
-            <div name="edit"><table style="width:100%">
-                <tr>
-                    <td><span translate="_" nameref="policy">Policies:</span></td>
-                    <td><span translate="_" nameref="rule">Rules:</span></td>
-                    <td><span translate="_">Rule:</span></td>
-                </tr>
-                <tr>
-                    <td style="width:300px" rowspan="2">
-                        <select name="policy" size="26" style="width:95%"/>
-                    </td>
-                    <td style="width:300px">
-                        <select name="rule" size="24" style="width:95%"/>
-                    </td>
-                    <td rowspan="2">
-                        <table width="100%">
-                            <tr><td>&nbsp;<span translate="_" nameref="template">Template:</span></td></tr>
-                            <tr><td><select name="template" size="1"  style="width:95%"/></td></tr>
-                            <tr style="height:45%"><td>&nbsp;<span translate="_" nameref="parameters">Parameters:</span></td></tr>
-                            <tr><td><textarea name="parameters" rows="12" style="width:95%"/></td></tr>
-                            <tr style="height:45%"><td><div name="help">&nbsp;</div></td></tr>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="button" name="add_button" value="Add rule" class="btn"/>
-                        <input type="button" name="remove_button" value="Remove rule" class="btn"/>
-                    </td>
-                </tr>
-            </table></div>
-    </form>
+        <div name="noedit" class="alterator-attention-message" style="float:none;display:none">
+            <img src="/design/images/attention.gif"/>
+            <span translate="_">You must deploy Active Directory domain to use ALT Domain Policies.</span>
+            <br/>
+            <br/>
+            <a href="/net-domain"><span translate="_">Deploy Active Directory domain...</span></a>
+        </div>
+    <script language="JavaScript">
+    function onCheckboxChange(e) {
+        var checked = e.checked;
+        var block = e.parentNode.parentNode;
+        // get id
+        var id = block.querySelectorAll("span[name='id']");
+        id = ( id.length > 0 ? id[0].textContent : null )
+
+        // Set visibility of parameters box
+        var p_box = block.querySelectorAll("div[name='parameters']");
+        p_box = ( p_box.length > 0 ? p_box[0] : null )
+        if ( checked ) {
+            p_box.style.display = 'block';
+        } else {
+            p_box.style.display = 'none';
+        }
+
+        // Debug
+        //alert( p_box );
+    }
+    </script>
+        <div name="edit">
+          <table style="width:100%">
+            <tr>
+                <td style="width:300px;padding-right:5mm;">
+                    <!-- List of available GPOs -->
+	            <form method="POST">
+                        <select name="policy" size="26" style="width:100%;"/>
+                    </form>
+                </td>
+                <td><!-- List of all available templates -->
+                    <table class="alterator-listbox" name="rules" enumref="/domain-policy/rules" style="padding-right:5mm;">
+                        <thead>
+                            <th><span translate="_">Templates:</span></th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td width="99%" style="font-size:9pt;color:black;">
+                                    <form method="POST" id="rule_edit">
+                                    <div>
+                                    <input type="checkbox" class="alterator-label" name="active" onClick="onCheckboxChange(this)"/>
+                                    <span class="alterator-label" name="id" style="font-weight:bold;"/></div>
+                                    <div style="padding-left:7mm"><span class="alterator-label" name="label" />
+                                    </div>
+                                    <div name="parameters" style="display:none;padding-left:7mm;">
+                                        <input type="hidden" name="params" class="alterator-label"/>
+                                        <input type="submit"/>
+                                    </div>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+          </table>
+        </div>
   </body>
 </html>
