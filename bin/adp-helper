@@ -1,0 +1,74 @@
+#!/usr/bin/python3                                                                                                         
+  
+# Script for show ALT Domain Policies templates
+# Copyright (C) 2019 Andrey Cherepanov <cas@altlinux.org>
+
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later
+# version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+# details.
+#
+# You should have received a copy of the GNU General Public License along with
+# this program. If not, see http://www.gnu.org/licenses/.
+
+import sys
+import os
+import glob
+import xml.etree.ElementTree as ET
+
+TEMPLATE_PATH = "/usr/libexec/adp"
+
+# Required mapping
+nsmap = {"xml": "http://www.w3.org/XML/1998/namespace"}
+
+def get_list():
+    """Get templates list"""
+    files = [ os.path.basename( os.path.splitext( f )[0] ) for f in glob.glob( TEMPLATE_PATH + "/*.xml", recursive=False ) ]
+    return files
+
+l = get_list()
+l.sort()
+
+if len( sys.argv ) < 3:
+    print( "Usage: adp-helper <cmd> <policy>" )
+    sys.exit( 1 )
+
+cmd = sys.argv[1]
+policy = sys.argv[2]
+
+# Process passed language
+lang = os.environ['in_language'] if 'in_language' in os.environ else ''
+lang = lang.split( ';' )[0]   # Preferred locale as ru_RU
+lang = lang.split( '_' )[0]   # Language without region as 'ru'
+
+for i in l:
+    # Iterate each template
+    try:
+        t = ET.parse( os.path.join( TEMPLATE_PATH, i + ".xml" ) )
+    except:
+        continue
+
+    id = t.findtext( "id" )
+    tag = 'name'
+    summary_en = t.findtext( tag, namespaces=nsmap )
+    if lang:
+        tag = "%s[@xml:lang=\"%s\"]" % ( tag, lang )
+    summary = t.findtext( tag, namespaces=nsmap )
+    
+    # Fallback to English if localized item is empty
+    if not summary:
+        summary = summary_en
+
+    # TODO
+    is_active = "#t"
+
+    # TODO
+    params = ""
+
+    print( "%s|%s|%s|%s" % ( is_active, id, summary, params ) )
+

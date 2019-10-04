@@ -4,10 +4,53 @@ alterator_api_version=1
 
 . alterator-sh-functions
 
+# List all available policies
+list_policies()
+{
+    samba-tool gpo listall | sed -n 's/^\(GPO\|display name\) *: \(.*\)$/\2/p' | sed '$!N;s/\n/ /' | while read id name;do
+        write_enum_item "$id" "$name"
+    done
+    write_enum_item "postscript" "`_ "Postscript stage"`"
+}
+
+# List rules
+list_rules()
+{
+    # use locale with UTF-8 for correct pass unicode output
+    export IFS=\|
+    LC_ALL=en_US.UTF-8 in_language="$in_language" adp-helper list "$in_policy" | while read active id label params; do
+         write_table_item \
+            active "$active" \
+            id "$id" \
+            label "$label" \
+            params "$params"
+    done
+}
+
+##############################################################################
+##### Message loop
+
 on_message()
 {
-	case "$in_action" in
-	esac
+    #echo "$(set|grep -a "in_")" >&2
+    case "$in_action" in
+        list)
+            case "$in__objects" in
+                policies)
+                    list_policies ;;
+                rules)
+                    [ -n "$in_policy" ] || return
+                    list_rules ;;
+            esac
+            ;;
+        read)
+            which samba-tool &>/dev/null && write_bool_param is_dc 1 || write_bool_param is_dc 0
+            ;;
+        write)
+            [ -n "$in_policy" -a -n "$in_role" ] || return
+            #on_write
+            ;;
+    esac
 }
 
 message_loop

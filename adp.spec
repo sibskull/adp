@@ -52,6 +52,7 @@ cd alterator-domain-policy
 %install
 install -Dm 0755 bin/adp %buildroot%_bindir/adp
 install -Dm 0755 bin/adp-functions %buildroot%_bindir/adp-functions
+install -Dm 0755 bin/adp-helper %buildroot%_bindir/adp-helper
 install -Dm 0755 sbin/adp-fetch %buildroot%_sbindir/adp-fetch
 install -Dm 0644 adp.sysconfig %buildroot%_sysconfdir/sysconfig/%name
 mkdir -p %buildroot%python3_sitelibdir/%name
@@ -61,6 +62,7 @@ cp -av templates/* %buildroot%_prefix/libexec/%name
 install -d -m 0770 %buildroot%_logdir/%name
 install -Dm0644 %name.desktop %buildroot%_sysconfdir/xdg/autostart/%name.desktop
 install -Dm0644 %name.service %buildroot%_unitdir/%name.service
+
 cd alterator-domain-policy
 %makeinstall
 
@@ -82,6 +84,7 @@ cd alterator-domain-policy
 %_prefix/libexec/%name/*
 
 %files -n alterator-domain-policy
+%_bindir/adp-helper
 %_alterator_backend3dir/*
 %_alterator_datadir/applications/*
 %_alterator_datadir/ui/*/*
