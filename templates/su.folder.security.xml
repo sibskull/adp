@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
 <policy_template>
-	<id>su.file.security</id>
+	<id>su.folder.security</id>
 	<name>Set the permissions of the directory</name>
 	<name xml:lang="ru">Установить права на каталог</name>
 	<version>0.1</version>
 	<class>su</class>
 	<requires type="package">coreutils</requires>
-	<script>su.file.security.sh</script>
+	<script>su.folder.security.sh</script>
 	<parameters>
 		<param type="string">dir</param>
 		<param type="string">user</param>
