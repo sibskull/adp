@@ -29,42 +29,43 @@
         // Debug
         //alert( p_box );
     }
+    $("input[type='checkbox']").change(function(e) {
+        alert(e.type);
+        print(e);
+    });
     </script>
         <div name="edit">
+	  <form method="POST">
           <table style="width:100%">
             <tr>
                 <td style="width:300px;padding-right:5mm;">
                     <!-- List of available GPOs -->
-	            <form method="POST">
                         <select name="policy" size="26" style="width:100%;"/>
-                    </form>
                 </td>
                 <td><!-- List of all available templates -->
-                    <table class="alterator-listbox" name="rules" enumref="/domain-policy/rules" style="padding-right:5mm;">
-                        <thead>
-                            <th><span translate="_">Templates:</span></th>
-                        </thead>
+                    <table class="alterator-listbox multi-select alterator-tree>" name="rules" enumref="/domain-policy/rules" style="padding-right:5mm;display:none;">
                         <tbody>
                             <tr>
                                 <td width="99%" style="font-size:9pt;color:black;">
-                                    <form method="POST" id="rule_edit">
                                     <div>
-                                    <input type="checkbox" class="alterator-label" name="active" onClick="onCheckboxChange(this)"/>
+                                    <!--input type="checkbox" class="select" name="name" onClick="onCheckboxChange(this)"/-->
                                     <span class="alterator-label" name="id" style="font-weight:bold;"/></div>
-                                    <div style="padding-left:7mm"><span class="alterator-label" name="label" />
-                                    </div>
-                                    <div name="parameters" style="display:none;padding-left:7mm;">
+                                    <div><span class="alterator-label" name="label" /></div>
+                                    <div name="parameters" style="display:none">
                                         <input type="hidden" name="params" class="alterator-label"/>
-                                        <input type="submit"/>
+                                        <input type="button" name="apply_button2" value="Apply" class="btn"/>
                                     </div>
-                                    </form>
                                 </td>
                             </tr>
                         </tbody>
+                        <tfoot><tr><td colspan="2">
+                            <input type="button" name="apply_button" value="Apply" class="btn"/>
+                        </td></tr></tfoot>
                     </table>
                 </td>
             </tr>
           </table>
+          </form>
         </div>
   </body>
 </html>
