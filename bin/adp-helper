@@ -20,6 +20,7 @@ import sys
 import os
 import glob
 import xml.etree.ElementTree as ET
+import json
 
 TEMPLATE_PATH = "/usr/libexec/adp"
 
@@ -46,6 +47,7 @@ lang = os.environ['in_language'] if 'in_language' in os.environ else ''
 lang = lang.split( ';' )[0]   # Preferred locale as ru_RU
 lang = lang.split( '_' )[0]   # Language without region as 'ru'
 
+d = list()
 for i in l:
     # Iterate each template
     try:
@@ -67,8 +69,13 @@ for i in l:
     # TODO
     is_active = "#t"
 
-    # TODO
-    params = ""
+    params = t.findall( "parameters/param", namespaces=nsmap  )
+    item = { 'id': id, 'summary': summary, 'params': list() }
+    for p in params:
+        item['params'].append( { 'name': p.text, 'type':p.attrib['type'] } )
+    d.append( item)
+#    print( "%s|%s|%s|%s" % ( is_active, id, summary, "" ) )
 
-    print( "%s|%s|%s|%s" % ( is_active, id, summary, params ) )
+j = json.dumps( d, indent=2 )
+print( j )
 
