@@ -4,4 +4,4 @@
 
 SWITCH="$1" # true/false
 
-timedatectl set-NTP "$SWITCH"
+timedatectl set-ntp "$SWITCH"
