@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. bin/adp-functions
+. adp-functions
 
 USER="$1" #account name
 COMMENT="$2" #comment for the account

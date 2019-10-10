@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. bin/adp-functions
+. adp-functions
 
 GROUP="$1"
 PASSWD="$2"

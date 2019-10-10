@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. bin/adp-functions
+. adp-functions
 
 FROZEN_PACKAGES="$1" # list of frozen packages
 

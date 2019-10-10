@@ -1,8 +1,13 @@
 #!/bin/sh
 
-. bin/adp-functions
+. adp-functions
 
-LENGTH="$1" # minimum password length
+# minimum password length
+LENGTH1="$1"
+LENGTH2="$2"
+LENGTH3="$3"
+LENGTH4="$4"
+LENGTH5="$5"
 
 #echo "minlen = $LENGTH" >> /etc/security/pwquality.conf
-sed -i "s|min=disabled,24,11,8,7|min=disabled,$LENGTH,$LENGTH,$LENGTH,$LENGTH|" /etc/passwdqc.conf
+sed "s|min=.*|min=$LENGTH1,$LENGTH2,$LENGTH3,$LENGTH4,$LENGTH5" /etc/passwdqc.conf

@@ -1,5 +1,5 @@
 #!/bin/sh
 
-. bin/adp-functions
+. adp-functions
 
-update-kernel
+update-kernel -f
