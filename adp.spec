@@ -59,7 +59,10 @@ mkdir -p %buildroot%python3_sitelibdir/%name
 cp -av lib/*.py %buildroot%python3_sitelibdir/%name
 mkdir -p %buildroot%_prefix/libexec/%name
 cp -av templates/* %buildroot%_prefix/libexec/%name
+
+install -d -m 0770 %buildroot%_sharedstatedir/%name
 install -d -m 0770 %buildroot%_logdir/%name
+
 install -Dm0644 %name.desktop %buildroot%_sysconfdir/xdg/autostart/%name.desktop
 install -Dm0644 %name.service %buildroot%_unitdir/%name.service
 
@@ -73,6 +76,7 @@ cd alterator-domain-policy
 %_sbindir/adp-fetch
 %config(noreplace) %_sysconfdir/sysconfig/%name
 %dir %_prefix/libexec/%name
+%attr(0770, root, users) %_sharedstatedir/%name
 %attr(0770, root, users) %_logdir/%name
 %_sysconfdir/xdg/autostart/%name.desktop
 %_unitdir/%name.service
