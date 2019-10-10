@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policy_template>
+	<id>user.ssh.authentication</id>
+	<name>Ssh-authentication within the password / the key</name>
+	<name xml:lang="ru">Ssh-аутентификация по паролю / ключу</name>
+	<version>0.1</version>
+	<class>user</class>
+	<requires type="package">openssh-clients</requires>
+	<requires type="package">coreutils</requires>
+	<script>user.ssh.authentication.sh</script>
+	<parameters>
+		<param type="string">user</param>
+		<param type="string">password</param>
+		<param type="integer">port</param>
+		<param type="string">host</param>
+	</parameters>
+</policy_template>
