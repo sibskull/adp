@@ -2,9 +2,7 @@
 
 . adp-functions
 
-ADDRESS="$1" # you can specify multiple addresses with a space
-
-#sed -i "2i\ ""$ADDRESS""" /etc/systemd/timesyncd.conf
+ADDRESS="$*" # you can specify multiple addresses with a space
 
 conf="/etc/systemd/timesyncd.conf"
 
