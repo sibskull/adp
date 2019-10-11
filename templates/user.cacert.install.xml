@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policy_template>
+	<id>user.cacert.install</id>
+	<name>Install CA certificate</name>
+	<name xml:lang="ru">Установить сертификат УЦ</name>
+	<version>0.1</version>
+	<class>user</class>
+	<requires type="de">mate</requires>
+	<requires de="mate" type="package">nss-utils</requires>
+	<script>user.cacert.install.sh</script>
+	<parameters>
+		<param type="string">cert</param>
+		<param type="string">location</param>
+		<param type="string">title</param>
+	</parameters>
+</policy_template>
