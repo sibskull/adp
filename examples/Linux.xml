@@ -4,6 +4,6 @@
 	<policy>
 		<template>user.background.image</template>
 		<param name="image">comet.jpg</param>
-		<param name="location"></param>
+		<param name="location">smb://serv/share/path_to_image</param>
 	</policy>
 </policies>

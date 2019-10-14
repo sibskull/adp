@@ -13,8 +13,19 @@ adp_copy_file()
 		mkdir -p "$target_dir"
 	fi
 
-	[ -z "$location" ] && location="."
+	# Find server and folder in location
+	location=${location#smb:}
+	folder=${location#//*/*/}
 
-	# Copy ordinary file
-	cp -a "$location/$source_file" "$target_file"
+	if [[ -z "$folder" || "$folder" -eq "$location" ]]; then
+		share="$location"
+		cd_folder=""
+	else
+		share=${location//$folder}
+		cd_folder="cd $folder; "
+	fi
+
+	cd /tmp
+	smbclient -N -k $share -c "prompt OFF; $cd_folder get $source_file"
+	mv $source_file $target_file
 }
