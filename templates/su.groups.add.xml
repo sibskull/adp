@@ -12,7 +12,7 @@
 	<script>su.groups.add.sh</script>
 	<parameters>
 		<param type="string">group</param>
-		<param type="string">passwd</param>
+		<param type="string">password</param>
 
 	</parameters>
 </policy_template>

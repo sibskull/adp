@@ -10,6 +10,6 @@
 	<script>su.file.create.sh</script>
 	<parameters>
 		<param type="string">file</param>
-		<param type="string">dir</param>
+		<param type="string">directory</param>
 	</parameters>
 </policy_template>

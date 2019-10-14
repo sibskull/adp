@@ -9,6 +9,6 @@
 	<requires type="package">coreutils</requires>
 	<script>su.folder.create.sh</script>
 	<parameters>
-		<param type="string">dir</param>
+		<param type="string">directory</param>
 	</parameters>
 </policy_template>

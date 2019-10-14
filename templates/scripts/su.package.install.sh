@@ -2,6 +2,7 @@
 
 . adp-functions
 
-PACKAGES="$1" # list of packages for installation
+PACKAGES="$*" # list of packages for installation
 
-apt-get install "$PACKAGES" -y
+apt-get update
+apt-get install $PACKAGES -y

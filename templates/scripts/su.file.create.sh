@@ -3,7 +3,7 @@
 . adp-functions
 
 FILE="$1"
-DIR="$2"
+DIRECTORY="$2"
 
 touch "$FILE"
-mv "$FILE" "$DIR"
+mv "$FILE" "$DIRECTORY"

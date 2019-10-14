@@ -2,6 +2,6 @@
 
 . adp-functions
 
-DIR="$1"
+DIRECTORY="$1"
 
-mkdir -p "$DIR"
+mkdir -p "$DIRECTORY"
