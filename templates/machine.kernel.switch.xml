@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policy_template>
+	<id>machine.kernel.switch</id>
+	<name>Change the kernel type</name>
+	<name xml:lang="ru">Сменить тип ядра</name>
+	<version>0.1</version>
+	<class>machine</class>
+	<class>user</class>
+	<requires type="package">update-kernel</requires>
+	<script>machine.kernel.switch.sh</script>
+	<parameters>
+		<param type="string">kernel</param>
+	</parameters>
+</policy_template>

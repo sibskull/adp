@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policy_template>
+	<id>machine.crontab.task</id>
+	<name>Add script to cron</name>
+	<name xml:lang="ru">Добавление скрипта в cron</name>
+	<version>0.1</version>
+	<class>machine</class>
+	<class>user</class>
+	<requires type="package">vixie-cron</requires>
+	<requires type="package">coreutils</requires>
+	<script>machine.crontab.task.sh</script>
+	<parameters>
+		<param type="string">script</param>
+		<param type="string">period</param>
+	</parameters>
+</policy_template>

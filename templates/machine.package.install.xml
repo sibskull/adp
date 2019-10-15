@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policy_template>
+	<id>machine.package.install</id>
+	<name>Install the specified packages</name>
+	<name xml:lang="ru">Установить указанные пакеты</name>
+	<version>0.1</version>
+	<class>machine</class>
+	<class>user</class>
+	<requires type="package">apt</requires>
+	<script>machine.package.install.sh</script>
+	<parameters>
+		<param type="string">packages</param>
+	</parameters>
+</policy_template>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policy_template>
+	<id>machine.package.update</id>
+	<name>Update all packages, except frozen</name>
+	<name xml:lang="ru">Обновить все пакеты кроме замороженных</name>
+	<version>0.1</version>
+	<class>machine</class>
+	<class>user</class>
+	<requires type="package">apt</requires>
+	<script>machine.package.update.sh</script>
+	<parameters>
+	</parameters>
+</policy_template>
