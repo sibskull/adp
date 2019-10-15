@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policy_template>
+	<id>machine.ssh.access</id>
+	<name>Configure access for the users or groups</name>
+	<name xml:lang="ru">Настроить доступ для определенных пользователей или групп</name>
+	<version>0.1</version>
+	<class>machine</class>
+	<class>user</class>
+	<requires type="package">openssh-server</requires>
+	<requires type="package">sed</requires>
+	<requires type="package">grep</requires>
+	<requires type="package">systemd-utils</requires>
+	<script>machine.ssh.access.sh</script>
+	<parameters>
+		<param type="boolen">switch</param>
+		<param type="string">user</param>
+		<param type="string">group</param>
+	</parameters>
+</policy_template>

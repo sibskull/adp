@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policy_template>
+	<id>machine.ssh.port</id>
+	<name>Change the SSH server port</name>
+	<name xml:lang="ru">Изменить порт SSH-сервера</name>
+	<version>0.1</version>
+	<class>machine</class>
+	<class>user</class>
+<!--	<requires type="package">systemd-utils</requires>-->
+	<requires type="package">openssh-server</requires>
+	<requires type="package">sed</requires>
+	<script>machine.ssh.port.sh</script>
+	<parameters>
+		<param type="integer">port</param>
+	</parameters>
+</policy_template>

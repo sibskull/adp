@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policy_template>
+	<id>machine.file.remove</id>
+	<name>Remove the file</name>
+	<name xml:lang="ru">Удалить файл</name>
+	<version>0.1</version>
+	<class>machine</class>
+	<class>user</class>
+	<requires type="package">coreutils</requires>
+	<script>machine.file.remove.sh</script>
+	<parameters>
+		<param type="string">file</param>
+	</parameters>
+</policy_template>

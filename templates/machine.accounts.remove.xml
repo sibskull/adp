@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policy_template>
+	<id>machine.accounts.remove</id>
+	<name>Remove local users</name>
+	<name xml:lang="ru">Удаление локальных пользователей</name>
+	<version>0.1</version>
+	<class>machine</class>
+	<class>user</class>
+	<requires type="package">shadow-utils</requires>
+	<requires type="package">passwd</requires>
+	<requires type="package">psmisc</requires>
+	<requires type="package">coreutils</requires>
+	<requires type="package">tar</requires>
+	<script>machine.accounts.remove.sh</script>
+	<parameters>
+		<param type="string">user</param>
+	</parameters>
+</policy_template>
