@@ -38,6 +38,10 @@ on_message()
             case "$in__objects" in
                 policies)
                     list_policies ;;
+		classes)
+		    write_enum_item "user" "`_ "User"`"
+		    write_enum_item "machine" "`_ "Machine"`"
+		    ;;
                 rules)
                     [ -n "$in_policy" ] || return
                     list_rules ;;

@@ -9,7 +9,8 @@
 (define (on-policy-select)
      (form-update-enum "rules" (woo-list "domain-policy/rules"
         'language (form-value "language")
-        'policy (form-value "policy")))
+        'policy (form-value "policy")
+        'class (form-value "class")))
      (form-update-visibility "rules" #t))
 
 ; Write rule values
@@ -34,8 +35,12 @@
     ; Read domain policy list
     (form-update-enum "policy" (woo-list "domain-policy/policies" 'language (form-value "language")))
 
-    ; Bind slot to policy select
+    ; Read available classes
+    (form-update-enum "class" (woo-list "domain-policy/classes" 'language (form-value "language")))
+
+    ; Bind slot to policy or class select
     (form-bind "policy" "change" on-policy-select)
+    (form-bind "class"  "change" on-policy-select)
 
     ; Write change check state
     (form-bind "rules" "update-value" ui-active)
