@@ -18,7 +18,7 @@ list_rules()
 {
     # use locale with UTF-8 for correct pass unicode output
     export IFS=\|
-    LC_ALL=en_US.UTF-8 in_language="$in_language" adp-helper list "$in_policy" "$in_class" | while read active id label params; do
+    LC_ALL=en_US.UTF-8 in_language="$in_language" adp-helper list "$in_policy" "$in_class" | while read id label params; do
         write_table_item \
             name "$id" \
             id "$id" \

@@ -81,9 +81,6 @@ def adp_list( policy, item_class ):
         if not summary:
             summary = summary_en
 
-        # TODO
-        is_active = "#t"
-
         params = t.findall( "parameters/param", namespaces=nsmap  )
         item = { 'id': id, 'summary': summary, 'params': list() }
         for p in params:
@@ -114,7 +111,7 @@ def adp_list( policy, item_class ):
         params = json.dumps( item['params'], indent=2 )
         params = base64.standard_b64encode( params.encode() ).decode()
 
-        print( "%s|%s|%s|%s" % ( is_active, id, summary, params ) )
+        print( "%s|%s|%s" % ( id, summary, params ) )
     return d
 
 #j = json.dumps( d, indent=2 )
