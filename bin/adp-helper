@@ -21,6 +21,7 @@ import os
 import glob
 import xml.etree.ElementTree as ET
 import json
+import base64
 
 TEMPLATE_PATH = "/usr/libexec/adp"
 
@@ -35,65 +36,88 @@ def get_list():
 l = get_list()
 l.sort()
 
-if len( sys.argv ) < 3:
-    print( "Usage: adp-helper <cmd> <policy>" )
+if len( sys.argv ) < 4:
+    print( "Usage: adp-helper <cmd> <policy> <class>" )
     sys.exit( 1 )
 
 cmd = sys.argv[1]
 policy = sys.argv[2]
+item_class = sys.argv[3]
 
 # Process passed language
 lang = os.environ['in_language'] if 'in_language' in os.environ else ''
 lang = lang.split( ';' )[0]   # Preferred locale as ru_RU
 lang = lang.split( '_' )[0]   # Language without region as 'ru'
 
-d = list()
-for i in l:
-    # Iterate each template
-    try:
-        t = ET.parse( os.path.join( TEMPLATE_PATH, i + ".xml" ) )
-    except:
-        continue
+def adp_list( policy, item_class ):
+    d = list()
+    for i in l:
+        # Iterate each template
+        try:
+            t = ET.parse( os.path.join( TEMPLATE_PATH, i + ".xml" ) )
+        except:
+            continue
 
-    id = t.findtext( "id" )
-    tag = 'name'
-    summary_en = t.findtext( tag, namespaces=nsmap )
-    if lang:
-        tag = "%s[@xml:lang=\"%s\"]" % ( tag, lang )
-    summary = t.findtext( tag, namespaces=nsmap )
-    
-    # Fallback to English if localized item is empty
-    if not summary:
-        summary = summary_en
+        # Check class
+        appropriated_class = False
+        for k in t.findall( "class" ):
+            # Check both for machine and user
+            if item_class == k.text:
+                appropriated_class = True
+            if item_class == 'machine' and k.text == 'su':
+                appropriated_class = True
 
-    # TODO
-    is_active = "#t"
+        if not appropriated_class:
+            continue
 
-    params = t.findall( "parameters/param", namespaces=nsmap  )
-    item = { 'id': id, 'summary': summary, 'params': list() }
-    for p in params:
-        # Fill name, type and default
-        if 'name' in p.attrib:
-            name = p.attrib['name']
-        else:
-            name = p.text
-        if 'type' in p.attrib:
-            type = p.attrib['type']
-        else:
-            type = p.text
-        default = p.attrib['default'] if 'default' in p.attrib else ''
+        id = t.findtext( "id" )
+        tag = 'name'
+        summary_en = t.findtext( tag, namespaces=nsmap )
+        if lang:
+            tag = "%s[@xml:lang=\"%s\"]" % ( tag, lang )
+        summary = t.findtext( tag, namespaces=nsmap )
 
-        # Localized label
-        label = p.findtext( "label[@xml:lang=\"%s\"]" % ( lang ), namespaces=nsmap )
-        if not label:
-            label = name
+        # Fallback to English if localized item is empty
+        if not summary:
+            summary = summary_en
 
-        # Add item
-        item['params'].append( { 'name': name, 'type': type, 'label': label, 'default': default } )
+        # TODO
+        is_active = "#t"
 
-    d.append( item)
-#    print( "%s|%s|%s|%s" % ( is_active, id, summary, "" ) )
+        params = t.findall( "parameters/param", namespaces=nsmap  )
+        item = { 'id': id, 'summary': summary, 'params': list() }
+        for p in params:
 
-j = json.dumps( d, indent=2 )
-print( j )
+            # Fill name, type and default
+            if 'name' in p.attrib:
+                name = p.attrib['name']
+            else:
+                name = p.text
+            if 'type' in p.attrib:
+                type = p.attrib['type']
+            else:
+                type = p.text
+            default = p.attrib['default'] if 'default' in p.attrib else ''
 
+            # Localized label
+            label = p.findtext( "label[@xml:lang=\"%s\"]" % ( lang ), namespaces=nsmap )
+            if not label:
+                label = name
+
+            # Add item
+            item['params'].append( { 'name': name, 'type': type, 'label': label, 'default': default, 'value': '' } )
+
+        # Add item to policy list
+        d.append( item)
+
+        # Serialize params
+        params = json.dumps( item['params'], indent=2 )
+        params = base64.standard_b64encode( params.encode() ).decode()
+
+        print( "%s|%s|%s|%s" % ( is_active, id, summary, params ) )
+    return d
+
+#j = json.dumps( d, indent=2 )
+#print( j )
+
+adp_list( policy, item_class )
