@@ -72,7 +72,25 @@ for i in l:
     params = t.findall( "parameters/param", namespaces=nsmap  )
     item = { 'id': id, 'summary': summary, 'params': list() }
     for p in params:
-        item['params'].append( { 'name': p.text, 'type':p.attrib['type'] } )
+        # Fill name, type and default
+        if 'name' in p.attrib:
+            name = p.attrib['name']
+        else:
+            name = p.text
+        if 'type' in p.attrib:
+            type = p.attrib['type']
+        else:
+            type = p.text
+        default = p.attrib['default'] if 'default' in p.attrib else ''
+
+        # Localized label
+        label = p.findtext( "label[@xml:lang=\"%s\"]" % ( lang ), namespaces=nsmap )
+        if not label:
+            label = name
+
+        # Add item
+        item['params'].append( { 'name': name, 'type': type, 'label': label, 'default': default } )
+
     d.append( item)
 #    print( "%s|%s|%s|%s" % ( is_active, id, summary, "" ) )
 
