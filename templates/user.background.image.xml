@@ -11,7 +11,8 @@
 	<requires de="mate" type="package">libgio</requires>
 	<script>user.background.image.sh</script>
 	<parameters>
-		<param type="string">image</param>
-		<param type="string">location</param>
+		<param type="string" name="location" default="">
+			<label xml:lang="ru">Расположение источника</label>
+		</param>
 	</parameters>
 </policy_template>
