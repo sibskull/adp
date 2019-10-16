@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
 <policy_template>
-	<id>machine.vnc.access</id>
-	<name>Enable remote access to the desktop</name>
-	<name xml:lang="ru">Позволять другим пользователям управлять вашим рабочим столом</name>
+	<id>machine.vnc.upnp</id>
+	<name>Whether a UPnP router should be used to forward and open ports</name>
+	<name xml:lang="ru">Автоматически настраивать маршрутизатор для открытия и перенаправления портов</name>
 	<version>0.1</version>
 	<class>machine</class>
 	<requires type="package">sed</requires>
 	<requires type="package">vino-mate</requires>
 	<requires type="package">libgio</requires>
-	<script>machine.vnc.access.sh</script>
+	<script>machine.vnc.upnp.sh</script>
 	<parameters>
 		<param type="boolean">switch</param>
 	</parameters>
