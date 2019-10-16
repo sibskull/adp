@@ -7,10 +7,11 @@
 
 ; On change policy in list
 (define (on-policy-select)
-     (form-update-enum "rules" (woo-list "domain-policy/rules"
+     (form-update-value "ejson" (woo-get-option (woo-read-first "domain-policy/json"
+        'action "list"
         'language (form-value "language")
         'policy (form-value "policy")
-        'class (form-value "class")))
+	'class (form-value "class")) 'json))
      (form-update-visibility "rules" #t))
 
 ; Write rule values
@@ -19,10 +20,6 @@
      (lambda()
        (apply woo-write "domain-policy"
               (form-value-list '("policy" "rules"))))))
-
-; Write activate and disable rule
-(define (ui-active)
-    (woo-error "AAA"))
 
 ;;;
 (define (init)
@@ -41,10 +38,6 @@
     ; Bind slot to policy or class select
     (form-bind "policy" "change" on-policy-select)
     (form-bind "class"  "change" on-policy-select)
-
-    ; Write change check state
-    (form-bind "rules" "update-value" ui-active)
-    (form-bind "rules" "change" ui-active)
 
     ; Bind Apply button click to backend
     (form-bind "apply_button" "click" ui-write))

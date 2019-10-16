@@ -22,6 +22,7 @@ import glob
 import xml.etree.ElementTree as ET
 import json
 import base64
+import urllib.parse
 
 TEMPLATE_PATH = "/usr/libexec/adp"
 
@@ -49,7 +50,8 @@ lang = os.environ['in_language'] if 'in_language' in os.environ else ''
 lang = lang.split( ';' )[0]   # Preferred locale as ru_RU
 lang = lang.split( '_' )[0]   # Language without region as 'ru'
 
-def adp_list( policy, item_class ):
+# Return list of available rules for policy and class with param values
+def adp_list( policy, item_class, is_print ):
     d = list()
     for i in l:
         # Iterate each template
@@ -111,10 +113,34 @@ def adp_list( policy, item_class ):
         params = json.dumps( item['params'], indent=2 )
         params = base64.standard_b64encode( params.encode() ).decode()
 
-        print( "%s|%s|%s" % ( id, summary, params ) )
+        if is_print:
+            print( "%s|%s|%s" % ( id, summary, params ) )
     return d
 
-#j = json.dumps( d, indent=2 )
-#print( j )
+# Return all active items
+def adp_active( policy, item_class ):
+    # Get path for policy file
+    # Get all template names from Linux.xml
+    return 0
 
-adp_list( policy, item_class )
+# Write param for specified rule for policy and class
+def adp_write( policy, item_class ):
+    # TODO
+    return 0
+
+if cmd == 'list':
+    adp_list( policy, item_class, True )
+elif cmd == 'json':
+    d = adp_list( policy, item_class, False )
+    params = json.dumps( d )
+    params = urllib.parse.quote( params )
+    print( params )
+elif cmd == 'json_debug':
+    d = adp_list( policy, item_class, False )
+    params = json.dumps( d, indent = 2 )
+    print( params )
+elif cmd == 'active':
+    adp_active( policy, item_class )
+elif cmd == 'write':
+    adp_write( policy, item_class )
+

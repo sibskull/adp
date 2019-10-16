@@ -28,6 +28,15 @@ list_rules()
     done
 }
 
+# List rules in JSON format
+list_rules_json()
+{
+    # use locale with UTF-8 for correct pass unicode output
+    export IFS=\|
+    content="$(LC_ALL=en_US.UTF-8 in_language="$in_language" adp-helper json "$in_policy" "$in_class")"
+    write_string_param json "\"$content\""
+}
+
 ##############################################################################
 ##### Message loop
 
@@ -45,6 +54,9 @@ on_message()
                 rules)
                     [ -n "$in_policy" ] || return
                     list_rules ;;
+		json)
+                    [ -n "$in_policy" ] || return
+                    list_rules_json ;;
             esac
             ;;
         read)
