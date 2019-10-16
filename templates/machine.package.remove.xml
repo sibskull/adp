@@ -10,7 +10,7 @@
 	<requires type="package">apt</requires>
 	<script>machine.package.remove.sh</script>
 	<parameters>
-		<param type="boolen">clean_settings</param>
+		<param type="boolean">clean_settings</param>
 		<param type="string">packages</param>
 	</parameters>
 </policy_template>

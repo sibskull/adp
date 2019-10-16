@@ -13,7 +13,7 @@
 	<requires type="package">systemd-utils</requires>
 	<script>machine.ssh.access.sh</script>
 	<parameters>
-		<param type="boolen">switch</param>
+		<param type="boolean">switch</param>
 		<param type="string">user</param>
 		<param type="string">group</param>
 	</parameters>

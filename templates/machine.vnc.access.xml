@@ -12,6 +12,6 @@
 	<requires type="package">libgio</requires>
 	<script>machine.vnc.access.sh</script>
 	<parameters>
-		<param type="boolen">switch</param>
+		<param type="boolean">switch</param>
 	</parameters>
 </policy_template>

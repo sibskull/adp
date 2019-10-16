@@ -11,6 +11,6 @@
 	<requires type="package">openssh-server</requires>
 	<script>machine.ssh.switch.sh</script>
 	<parameters>
-		<param type="boolen">switch</param>
+		<param type="boolean">switch</param>
 	</parameters>
 </policy_template>

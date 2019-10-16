@@ -12,7 +12,7 @@
 	<requires type="package">libgio</requires>
 	<script>machine.vnc.prompt.sh</script>
 	<parameters>
-		<param type="boolen">switch</param>
-		<param type="boolen">source</param>
+		<param type="boolean">switch</param>
+		<param type="boolean">source</param>
 	</parameters>
 </policy_template>
