@@ -10,7 +10,7 @@
 	<requires type="package">coreutils</requires>
 	<script>machine.folder.security.sh</script>
 	<parameters>
-		<param type="string">dir</param>
+		<param type="string">directory</param>
 		<param type="string">user</param>
 		<param type="string">group</param>
 	</parameters>
