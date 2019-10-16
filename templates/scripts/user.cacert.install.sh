@@ -18,14 +18,15 @@ adp_copy_file "$LOCATION" "$CERT" "$CERT_PATH"
 if [ ! -f "$NSSDB/cert9.db" ]; then
   certutil -N -d sql:$NSSDB --empty-password
 fi
+certutil -d sql:"$NSSDB" -D -n "$TITLE"
 certutil -d sql:"$NSSDB" -A -t TC -n "$TITLE" -i "$CERT_PATH"
 
 #for firefox
 FIREFOX_DIR="$HOME/.mozilla/firefox"
 if [ -d "$FIREFOX_DIR" ]; then
   FIREFOX_NSSDB="$(find $FIREFOX_DIR -type d -name *.default)"
-  [ -z "$FIREFOX_NSSDB" ] || certutil -d sql:"$FIREFOX_NSSDB" -A -t TC -n "$TITLE" -i "$CERT_PATH"
+  if [ "$FIREFOX_NSSDB" != "" ]; then
+    certutil -d sql:"$FIREFOX_NSSDB" -D -n "$TITLE"
+    certutil -d sql:"$FIREFOX_NSSDB" -A -t TC -n "$TITLE" -i "$CERT_PATH"
+  fi
 fi
-
-
-

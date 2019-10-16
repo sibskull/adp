@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policy_template>
+	<id>machine.folder.remove</id>
+	<name>Remove the folder</name>
+	<name xml:lang="ru">Удалить каталог</name>
+	<version>0.1</version>
+	<class>machine</class>
+	<class>user</class>
+	<requires type="package">coreutils</requires>
+	<script>machine.folder.remove.sh</script>
+	<parameters>
+		<param type="string">directory</param>
+	</parameters>
+</policy_template>

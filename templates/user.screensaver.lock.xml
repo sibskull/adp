@@ -9,6 +9,6 @@
 	<requires type="de">mate</requires>
 	<script>user.screensaver.lock.sh</script>
 	<parameters>
-		<param type="boolen">state</param>
+		<param type="boolean">state</param>
 	</parameters>
 </policy_template>

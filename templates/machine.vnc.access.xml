@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policy_template>
+	<id>machine.vnc.access</id>
+	<name>Allow other users to view your desktop</name>
+	<name xml:lang="ru">Позволить другим пользователям увидеть ваш рабочий стол</name>
+	<version>0.1</version>
+	<class>machine</class>
+	<class>user</class>
+	<requires type="package">sed</requires>
+	<requires type="package">vino-mate</requires>
+	<requires type="package">libgio</requires>
+	<script>machine.vnc.access.sh</script>
+	<parameters>
+		<param type="boolean">switch</param>
+	</parameters>
+</policy_template>

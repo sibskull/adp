@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policy_template>
+	<id>machine.kernel.remove</id>
+	<name>Remove the old kernel or the kernels</name>
+	<name xml:lang="ru">Удалить старое ядро или ядра</name>
+	<version>0.1</version>
+	<class>machine</class>
+	<class>user</class>
+	<requires type="package">update-kernel</requires>
+	<script>machine.kernel.remove.sh</script>
+	<parameters>
+	</parameters>
+</policy_template>
