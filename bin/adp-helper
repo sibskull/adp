@@ -23,19 +23,13 @@ import xml.etree.ElementTree as ET
 import json
 import base64
 import urllib.parse
+import subprocess
+import re
 
 TEMPLATE_PATH = "/usr/libexec/adp"
 
 # Required mapping
 nsmap = {"xml": "http://www.w3.org/XML/1998/namespace"}
-
-def get_list():
-    """Get templates list"""
-    files = [ os.path.basename( os.path.splitext( f )[0] ) for f in glob.glob( TEMPLATE_PATH + "/*.xml", recursive=False ) ]
-    return files
-
-l = get_list()
-l.sort()
 
 if len( sys.argv ) < 4:
     print( "Usage: adp-helper <cmd> <policy> <class>" )
@@ -50,8 +44,70 @@ lang = os.environ['in_language'] if 'in_language' in os.environ else ''
 lang = lang.split( ';' )[0]   # Preferred locale as ru_RU
 lang = lang.split( '_' )[0]   # Language without region as 'ru'
 
-# Return list of available rules for policy and class with param values
+def get_list():
+    """Get templates list"""
+    files = [ os.path.basename( os.path.splitext( f )[0] ) for f in glob.glob( TEMPLATE_PATH + "/*.xml", recursive=False ) ]
+    return files
+
+def adp_get_policy_path():
+    """Get policy path"""
+    out = subprocess.check_output( "samba-tool domain info 127.0.0.1".split( ' ' ), stderr=subprocess.STDOUT ).decode()
+    d = re.search( "^Domain\s*: (\S+)\n", out, re.MULTILINE )
+    if d:
+        return "/var/lib/samba/sysvol/%s/Policies" % ( d.group( 1 ) )
+    return ""
+
+def adp_get_rule_file( policy, classname ):
+    """Get rule file if it exists"""
+    # Check policy directory
+    top_dir = os.path.join( adp_get_policy_path(), policy )
+    loc = os.path.join( top_dir, classname.capitalize() )
+    if not os.path.isdir( loc ):
+        # Possible, last part in path has wrong case
+        loc = os.path.join( top_dir, classname.upper() )
+        if not os.path.isdir( loc):
+            loc = os.path.join( top_dir, classname.lower() )
+            if not os.path.isdir( loc):
+                return None
+
+    # Check if Linux.xml exists in policy directory
+    file_name = os.path.join( loc, 'Linux.xml' )
+    return file_name if os.path.isfile( file_name ) else None
+
+def adp_rule_list( file_name ):
+    """Return dictionary of templates with filled parameters"""
+    d = {}
+
+    if not file_name:
+        return d
+
+    try:
+        t = ET.parse( file_name )
+    except:
+        return d
+
+    for i in t.findall( 'policy' ):
+        # Iterate through each filled policy
+        key = i.findtext( 'template' )
+        values = {}
+        for v in i.findall( 'param' ):
+            name = v.attrib.get( 'name' )
+            value = v.text
+            if name:
+                values[ name ] = value
+        d[ key ] = values
+    return d
+
 def adp_list( policy, item_class, is_print ):
+    """Return list of available rules for policy and class with param values"""
+
+    # Get templates list
+    l = get_list()
+    l.sort()
+
+    # Get filled Linux.xml file content
+    dp = adp_rule_list( adp_get_rule_file( policy, item_class ) )
+
     d = list()
     for i in l:
         # Iterate each template
@@ -84,7 +140,11 @@ def adp_list( policy, item_class, is_print ):
             summary = summary_en
 
         params = t.findall( "parameters/param", namespaces=nsmap  )
-        item = { 'id': id, 'summary': summary, 'params': list() }
+
+        # Create new item
+        item = { 'id': id, 'summary': summary, 'is_active': id in dp, 'params': list() }
+
+        # Add parameters
         for p in params:
 
             # Fill name, type and default
@@ -104,10 +164,16 @@ def adp_list( policy, item_class, is_print ):
                 label = name
 
             # Add item
-            item['params'].append( { 'name': name, 'type': type, 'label': label, 'default': default, 'value': '' } )
+            v = ''
+
+            # Check for specified value
+            if id in dp and name in dp[ id ]:
+                v = dp[ id ][ name ]
+
+            item['params'].append( { 'name': name, 'type': type, 'label': label, 'default': default, 'value': v } )
 
         # Add item to policy list
-        d.append( item)
+        d.append( item )
 
         # Serialize params
         params = json.dumps( item['params'], indent=2 )
@@ -117,14 +183,15 @@ def adp_list( policy, item_class, is_print ):
             print( "%s|%s|%s" % ( id, summary, params ) )
     return d
 
-# Return all active items
 def adp_active( policy, item_class ):
+    """Return all active items"""
     # Get path for policy file
     # Get all template names from Linux.xml
+    print( adp_get_rule_file( policy, item_class ) )
     return 0
 
-# Write param for specified rule for policy and class
 def adp_write( policy, item_class ):
+    """Write param for specified rule for policy and class"""
     # TODO
     return 0
 
