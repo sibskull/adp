@@ -2,7 +2,7 @@
 
 <policy_template>
 	<id>machine.package.remove</id>
-	<name>Reinstall the specified packages</name>
+	<name>Remove the specified packages</name>
 	<name xml:lang="ru">Удалить указанные пакеты</name>
 	<version>0.1</version>
 	<class>machine</class>
