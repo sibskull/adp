@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
 <policy_template>
-	<id>machine.package.install</id>
+	<id>machine.package.reinstall</id>
 	<name>Reinstall the specified packages</name>
 	<name xml:lang="ru">Переустановить указанные пакеты</name>
 	<version>0.1</version>
