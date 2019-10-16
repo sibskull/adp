@@ -18,7 +18,7 @@ list_rules()
 {
     # use locale with UTF-8 for correct pass unicode output
     export IFS=\|
-    LC_ALL=en_US.UTF-8 in_language="$in_language" adp-helper list "$in_policy" | while read active id label params; do
+    LC_ALL=en_US.UTF-8 in_language="$in_language" adp-helper list "$in_policy" "$in_class" | while read id label params; do
         write_table_item \
             name "$id" \
             id "$id" \
@@ -26,6 +26,15 @@ list_rules()
             params "$params"
         #write_enum_item "$id" "$label"
     done
+}
+
+# List rules in JSON format
+list_rules_json()
+{
+    # use locale with UTF-8 for correct pass unicode output
+    export IFS=\|
+    content="$(LC_ALL=en_US.UTF-8 in_language="$in_language" adp-helper json "$in_policy" "$in_class")"
+    write_string_param json "\"$content\""
 }
 
 ##############################################################################
@@ -38,9 +47,16 @@ on_message()
             case "$in__objects" in
                 policies)
                     list_policies ;;
+		classes)
+		    write_enum_item "user" "`_ "User"`"
+		    write_enum_item "machine" "`_ "Machine"`"
+		    ;;
                 rules)
                     [ -n "$in_policy" ] || return
                     list_rules ;;
+		json)
+                    [ -n "$in_policy" ] || return
+                    list_rules_json ;;
             esac
             ;;
         read)
