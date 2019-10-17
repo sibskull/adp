@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policy_template>
+	<id>user.vnc.view</id>
+	<name>Only allow remote users to view the desktop</name>
+	<name xml:lang="ru">Позволять другим пользователям видеть ваш рабочий стол</name>
+	<version>0.1</version>
+	<class>user</class>
+	<requires type="package">sed</requires>
+	<requires type="package">vino-mate</requires>
+	<requires type="package">libgio</requires>
+	<script>user.vnc.view.sh</script>
+	<parameters>
+		<param type="boolean">switch</param>
+	</parameters>
+</policy_template>
