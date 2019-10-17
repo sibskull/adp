@@ -19,12 +19,15 @@
 import sys
 import os
 import glob
+from collections import OrderedDict
 import xml.etree.ElementTree as ET
+from xml.dom import minidom
 import json
 import base64
 import urllib.parse
 import subprocess
 import re
+import pprint
 
 TEMPLATE_PATH = "/usr/libexec/adp"
 
@@ -72,7 +75,7 @@ def adp_get_rule_file( policy, classname ):
 
     # Check if Linux.xml exists in policy directory
     file_name = os.path.join( loc, 'Linux.xml' )
-    return file_name if os.path.isfile( file_name ) else None
+    return file_name
 
 def adp_rule_list( file_name ):
     """Return dictionary of templates with filled parameters"""
@@ -183,16 +186,113 @@ def adp_list( policy, item_class, is_print ):
             print( "%s|%s|%s" % ( id, summary, params ) )
     return d
 
-def adp_active( policy, item_class ):
-    """Return all active items"""
-    # Get path for policy file
-    # Get all template names from Linux.xml
-    print( adp_get_rule_file( policy, item_class ) )
+def adp_write( policy, item_class ):
+    """Write parameters for all rules for policy and class (encoded in base64)"""
+    #f = open( "/tmp/apd-helper.log", "w+" )
+    #f.write( "WRITE %s (%s)\n" % ( policy, item_class ) )
+    data = "\n".join( sys.stdin.readlines() ).strip()
+    #f.write( "%s\n" % ( data ) )
+    # Remove double quotes
+    if len(data) > 1 and data[0] == '"':
+        data = data[1:-1]
+    #f.write( "%s\n" % ( data ) )
+    enabled_items = []
+    if data:
+        # Decode from base64 and parse complete URL
+        data = base64.b64decode( data ).decode()
+        data = urllib.parse.parse_qs( data )
+
+        #f.write( "Decoding is complete\n" )
+        #f.write( "%s\n" % ( pprint.pformat( data ) ) )
+
+        # Extract parameter values
+        ddata = {}
+        for key, val in data.items():
+            value = val[0] if len( val ) > 0 else ''
+            d = list( filter( None, re.split( '\[|\]', key ) ) )
+            # Only for rules values
+            if len(d) > 2 and d[0] == 'rules':
+                id, template, param = d
+
+                # Oops, template has all dots replaced by _
+                template = template.replace( '_', '.' )
+
+                #f.write( "%s:%s = %s\n" % ( template, param, value ) )
+
+                # If enabled == on add to enabled
+                if param == 'enabled':
+                    if value == 'on':
+                        enabled_items.append( template )
+                    continue
+
+                # Add new rule
+                if not template in ddata:
+                    ddata[ template ] = {}
+
+                # Add parameter value
+                ddata[ template ][ param ] = value
+
+                #import pprint
+                #data = pprint.fprint( ddata )
+
+        #f.write( "Enabled items: %s\n" % ( pprint.pformat( enabled_items ) ) )
+        # Dictionary cleanup for disabled items
+        dd = {}
+        for di in enabled_items:
+            dd[ di ] = ddata[ di ]
+
+        # Dump clean dictionary with values
+        #f.write( "Data: %s\n" % ( pprint.pformat( dd ) ) )
+
+        # Write data
+        adp_write_args( policy, item_class, dd )
+    else:
+        adp_write_args( policy, item_class, {} )
+    #f.write( "%s\n" % ( data ) )
+    #f.close()
     return 0
 
-def adp_write( policy, item_class ):
-    """Write param for specified rule for policy and class"""
-    # TODO
+def adp_write_args( policy, item_class, data ):
+    """Write parameters for all rules for policy and class"""
+    file_name = adp_get_rule_file( policy, item_class )
+    if not file_name:
+        return 1
+
+    try:
+        if os.path.isfile( file_name ):
+            t = ET.parse( file_name )
+            # Remove all existing elements
+            t.getroot().clear()
+        else:
+            t = ET.ElementTree( ET.Element( 'policies' ) )
+    except Exception as e:
+        # print( e )
+        return 2
+
+    # Sort by keys
+    data = OrderedDict( sorted( data.items() ) )
+
+    for id in data:
+        i = ET.Element( 'policy' )
+        template = ET.Element( 'template' )
+        template.text = id
+        i.append( template )
+        # Iterate through all parameters
+        for param, value in data[ id ].items():
+            p = ET.Element( 'param', { 'name': param } )
+            p.text = value
+            i.append( p )
+        # Save rule block
+        t.getroot().append( i )
+
+    # Dumps result
+    xmlstr = minidom.parseString( ET.tostring( t.getroot() ) ).toprettyxml( indent="    ", encoding="UTF-8" ).decode()
+    #print( xmlstr )
+
+    # Write result
+    with open( file_name, "w" ) as f:
+        f.write( xmlstr )
+
     return 0
 
 if cmd == 'list':
@@ -206,8 +306,8 @@ elif cmd == 'json_debug':
     d = adp_list( policy, item_class, False )
     params = json.dumps( d, indent = 2 )
     print( params )
-elif cmd == 'active':
-    adp_active( policy, item_class )
 elif cmd == 'write':
     adp_write( policy, item_class )
-
+elif cmd == 'write_args':
+    data = { 'user.background.image': { 'location':'smb://dc0.alt.domain/netlogon/TS/urist.jpg' }, 'user.screensaver.lock': { 'state': 'true' } }
+    ret = adp_write_args( policy, item_class, data )

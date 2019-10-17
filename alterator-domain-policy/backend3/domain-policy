@@ -37,6 +37,12 @@ list_rules_json()
     write_string_param json "\"$content\""
 }
 
+# Write rules in base64 format
+write_rules()
+{
+    echo "$in_data64" | LC_ALL=en_US.UTF-8 in_language="$in_language" adp-helper write "$in_policy" "$in_class"
+}
+
 ##############################################################################
 ##### Message loop
 
@@ -53,9 +59,11 @@ on_message()
 		    ;;
                 rules)
                     [ -n "$in_policy" ] || return
+                    [ -n "$in_class" ] || return
                     list_rules ;;
 		json)
                     [ -n "$in_policy" ] || return
+                    [ -n "$in_class" ] || return
                     list_rules_json ;;
             esac
             ;;
@@ -65,10 +73,11 @@ on_message()
         write)
             echo "WRITE_RULE" >> /tmp/domain-policy.log
             set|grep ^in_ >> /tmp/domain-policy.log
-            ;;
-        active)
-            echo "ACTIVE_RULE" >> /tmp/domain-policy.log
-            set|grep ^in_ >> /tmp/domain-policy.log
+            [ -n "$in_policy" ] || return
+            [ -n "$in_class" ] || return
+            echo "WRITE_RULE (begin)" >> /tmp/domain-policy.log
+            write_rules
+            echo "WRITE_RULE (end)" >> /tmp/domain-policy.log
             ;;
     esac
 }

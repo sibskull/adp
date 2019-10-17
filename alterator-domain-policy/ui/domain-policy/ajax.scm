@@ -12,14 +12,15 @@
         'language (form-value "language")
         'policy (form-value "policy")
 	'class (form-value "class")) 'json))
+     (form-update-visibility "class" #t)
      (form-update-visibility "rules" #t))
 
 ; Write rule values
-(define (ui-write)
+(define (undefined)
    (catch/message
      (lambda()
        (apply woo-write "domain-policy"
-              (form-value-list '("policy" "rules"))))))
+              (form-value-list '("policy" "class" "data64" ))))))
 
 ;;;
 (define (init)
@@ -40,5 +41,5 @@
     (form-bind "class"  "change" on-policy-select)
 
     ; Bind Apply button click to backend
-    (form-bind "apply_button" "click" ui-write))
+    (form-bind "apply_button" "click" undefined))
 

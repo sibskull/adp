@@ -9,64 +9,20 @@
             <br/>
             <a href="/net-domain"><span translate="_">Deploy Active Directory domain...</span></a>
         </div>
-    <script language="JavaScript">
-    function onCheckboxChange(e) {
-        var checked = e.checked;
-        var block = e.parentNode.parentNode;
-        // get id
-        var id = block.querySelectorAll("span[name='id']");
-        id = ( id.length > 0 ? id[0].textContent : null )
-
-        // Set visibility of parameters box
-        var p_box = block.querySelectorAll("div[name='parameters']");
-        p_box = ( p_box.length > 0 ? p_box[0] : null )
-        if ( checked ) {
-            p_box.style.display = 'block';
-        } else {
-            p_box.style.display = 'none';
-        }
-
-        // Debug
-        //alert( p_box );
-    }
-    $("input[type='checkbox']").change(function(e) {
-        alert(e.type);
-        print(e);
-    });
-    </script>
         <div name="edit">
 	  <form method="POST">
           <table style="width:100%">
             <tr>
                 <td style="width:300px;padding-right:5mm;">
                     <!-- List of available GPOs -->
-                        <select name="policy" size="26" style="width:100%;"/>
+                    <select name="policy" size="26" style="width:100%;"/>
                 </td>
                 <td><!-- List of all available templates -->
-		    <select name="class" size="1" style="margin-bottom:3mm;"/>
-                    <table class="alterator-listbox multi-select alterator-tree>" name="rules" enumref="/domain-policy/rules" style="padding-right:5mm;display:none;">
-                        <tbody>
-                            <tr>
-                                <td width="99%" style="font-size:9pt;color:black;">
-                                    <div>
-                                    <!--input type="checkbox" class="select" name="name" onClick="onCheckboxChange(this)"/-->
-                                    <span class="alterator-label" name="id" style="font-weight:bold;"/></div>
-                                    <div><span class="alterator-label" name="label" /></div>
-                                    <div name="parameters" style="display:none">
-                                        <input type="hidden" name="params" class="alterator-label"/>
-                                        <input type="button" name="apply_button2" value="Apply" class="btn"/>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                        <tfoot><tr><td colspan="2">
-                            <input type="button" name="apply_button" value="Apply" class="btn"/>
-                        </td></tr></tfoot>
-                    </table>
+                    <select name="class" size="1" style="margin-bottom:3mm;display:none;"/>
+                    <div class="alterator-data"></div>
                 </td>
             </tr>
           </table>
-	  <input type="hidden" name="json64"/>
           </form>
         </div>
   </body>
