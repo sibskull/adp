@@ -6,7 +6,6 @@
 	<name xml:lang="ru">Использовать NTP-сервер</name>
 	<version>0.1</version>
 	<class>machine</class>
-	<class>user</class>
 	<requires type="package">systemd-services</requires>
 	<script>machine.ntp.switch.sh</script>
 	<parameters>

@@ -6,7 +6,6 @@
 	<name xml:lang="ru">Заменить файл</name>
 	<version>0.1</version>
 	<class>machine</class>
-	<class>user</class>
 	<requires type="package">coreutils</requires>
 	<script>machine.file.replace.sh</script>
 	<parameters>

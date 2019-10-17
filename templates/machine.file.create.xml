@@ -6,7 +6,6 @@
 	<name xml:lang="ru">Создать новый файл</name>
 	<version>0.1</version>
 	<class>machine</class>
-	<class>user</class>
 	<requires type="package">coreutils</requires>
 	<script>machine.file.create.sh</script>
 	<parameters>

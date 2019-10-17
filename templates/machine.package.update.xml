@@ -6,7 +6,6 @@
 	<name xml:lang="ru">Обновить все пакеты кроме замороженных</name>
 	<version>0.1</version>
 	<class>machine</class>
-	<class>user</class>
 	<requires type="package">apt</requires>
 	<script>machine.package.update.sh</script>
 	<parameters>

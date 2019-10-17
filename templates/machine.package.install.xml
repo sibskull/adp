@@ -6,7 +6,6 @@
 	<name xml:lang="ru">Установить указанные пакеты</name>
 	<version>0.1</version>
 	<class>machine</class>
-	<class>user</class>
 	<requires type="package">apt</requires>
 	<script>machine.package.install.sh</script>
 	<parameters>

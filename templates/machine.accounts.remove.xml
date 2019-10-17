@@ -6,7 +6,6 @@
 	<name xml:lang="ru">Удаление локальных пользователей</name>
 	<version>0.1</version>
 	<class>machine</class>
-	<class>user</class>
 	<requires type="package">shadow-utils</requires>
 	<requires type="package">passwd</requires>
 	<requires type="package">psmisc</requires>

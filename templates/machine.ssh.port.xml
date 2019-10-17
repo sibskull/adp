@@ -6,7 +6,6 @@
 	<name xml:lang="ru">Изменить порт SSH-сервера</name>
 	<version>0.1</version>
 	<class>machine</class>
-	<class>user</class>
 <!--	<requires type="package">systemd-utils</requires>-->
 	<requires type="package">openssh-server</requires>
 	<requires type="package">sed</requires>

@@ -6,7 +6,6 @@
 	<name xml:lang="ru">Добавить источник в список активных репозиториев</name>
 	<version>0.1</version>
 	<class>machine</class>
-	<class>user</class>
 	<requires type="package">apt-repo</requires>
 	<script>machine.repo.add.sh</script>
 	<parameters>
