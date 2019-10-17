@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policy_template>
+	<id>user.cacert.remove</id>
+	<name>Remove CA certificate</name>
+	<name xml:lang="ru">Удалить сертификат УЦ</name>
+	<version>0.1</version>
+	<class>user</class>
+	<requires type="de">mate</requires>
+	<requires de="mate" type="package">nss-utils</requires>
+	<script>user.cacert.remove.sh</script>
+	<parameters>
+		<param type="string">title</param>
+	</parameters>
+</policy_template>
