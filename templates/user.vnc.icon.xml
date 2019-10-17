@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policy_template>
+	<id>user.vnc.icon</id>
+	<name>When the status icon should be shown</name>
+	<name xml:lang="ru">Настройка значка в области уведомлений</name>
+	<version>0.1</version>
+	<class>user</class>
+	<requires type="package">sed</requires>
+	<requires type="package">vino-mate</requires>
+	<requires type="package">libgio</requires>
+	<script>user.vnc.icon.sh</script>
+	<parameters>
+		<param type="string">status</param>
+	</parameters>
+</policy_template>
