@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policy_template>
+	<id>machine.package.unhold</id>
+	<name>Allow specified packages to be updated</name>
+	<name xml:lang="ru">Разрешить указанным пакетам обновляться</name>
+	<version>0.1</version>
+	<class>machine</class>
+	<requires type="package">apt</requires>
+	<script>machine.package.unhold.sh</script>
+	<parameters>
+		<param type="string">packages</param>
+	</parameters>
+</policy_template>

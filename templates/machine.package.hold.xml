@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
 <policy_template>
-	<id>machine.package.frozen</id>
+	<id>machine.package.hold</id>
 	<name>Disallow specified packages to be updated</name>
 	<name xml:lang="ru">Запретить указанным пакетам обновляться</name>
 	<version>0.1</version>
 	<class>machine</class>
-	<class>user</class>
 	<requires type="package">apt</requires>
-	<script>machine.package.frozen.sh</script>
+	<script>machine.package.hold.sh</script>
 	<parameters>
-		<param type="string">frozen_packages</param>
+		<param type="string">packages</param>
 	</parameters>
 </policy_template>
