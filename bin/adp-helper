@@ -30,6 +30,7 @@ import re
 import pprint
 
 TEMPLATE_PATH = "/usr/libexec/adp"
+DEBUG = False
 
 # Required mapping
 nsmap = {"xml": "http://www.w3.org/XML/1998/namespace"}
@@ -188,22 +189,27 @@ def adp_list( policy, item_class, is_print ):
 
 def adp_write( policy, item_class ):
     """Write parameters for all rules for policy and class (encoded in base64)"""
-    #f = open( "/tmp/apd-helper.log", "w+" )
-    #f.write( "WRITE %s (%s)\n" % ( policy, item_class ) )
+    if DEBUG:
+        f = open( "/tmp/apd-helper.log", "w+" )
+        f.write( "WRITE %s (%s)\n" % ( policy, item_class ) )
     data = "\n".join( sys.stdin.readlines() ).strip()
-    #f.write( "%s\n" % ( data ) )
+    if DEBUG:
+        f.write( "%s\n" % ( data ) )
     # Remove double quotes
-    if len(data) > 1 and data[0] == '"':
-        data = data[1:-1]
-    #f.write( "%s\n" % ( data ) )
+    #if len(data) > 1 and data[0] == '"':
+    #    data = data[1:-1]
+    #if DEBUG:
+    #    f.write( "%s\n" % ( data ) )
     enabled_items = []
     if data:
         # Decode from base64 and parse complete URL
-        data = base64.b64decode( data ).decode()
+        #data = base64.b64decode( data ).decode()
+        # Decode urlencoded data
         data = urllib.parse.parse_qs( data )
 
-        #f.write( "Decoding is complete\n" )
-        #f.write( "%s\n" % ( pprint.pformat( data ) ) )
+        if DEBUG:
+            f.write( "Decoding is complete\n" )
+            f.write( "%s\n" % ( pprint.pformat( data ) ) )
 
         # Extract parameter values
         ddata = {}
@@ -217,7 +223,8 @@ def adp_write( policy, item_class ):
                 # Oops, template has all dots replaced by _
                 template = template.replace( '_', '.' )
 
-                #f.write( "%s:%s = %s\n" % ( template, param, value ) )
+                if DEBUG:
+                    f.write( "%s:%s = %s\n" % ( template, param, value ) )
 
                 # If enabled == on add to enabled
                 if param == 'enabled':
@@ -232,24 +239,24 @@ def adp_write( policy, item_class ):
                 # Add parameter value
                 ddata[ template ][ param ] = value
 
-                #import pprint
-                #data = pprint.fprint( ddata )
-
-        #f.write( "Enabled items: %s\n" % ( pprint.pformat( enabled_items ) ) )
+        if DEBUG:
+            f.write( "Enabled items: %s\n" % ( pprint.pformat( enabled_items ) ) )
         # Dictionary cleanup for disabled items
         dd = {}
         for di in enabled_items:
             dd[ di ] = ddata[ di ]
 
         # Dump clean dictionary with values
-        #f.write( "Data: %s\n" % ( pprint.pformat( dd ) ) )
+        if DEBUG:
+            f.write( "Data: %s\n" % ( pprint.pformat( dd ) ) )
 
         # Write data
         adp_write_args( policy, item_class, dd )
     else:
         adp_write_args( policy, item_class, {} )
-    #f.write( "%s\n" % ( data ) )
-    #f.close()
+    if DEBUG:
+        f.write( "%s\n" % ( data ) )
+        f.close()
     return 0
 
 def adp_write_args( policy, item_class, data ):
