@@ -4,8 +4,6 @@
 MODE="$1" # blank-only/random/single
 THEME="$2"
 
-gsettings set org.mate.screensaver mode $MODE
-[ "$MODE" = "single" ] && gsettings set org.mate.screensaver themes "['$THEME']"
 # Replace the value entered (mate-screensaver-1.12.0)
 # key name="mode"
 sed -i "19 s|>.*<|>'$MODE'<|" /usr/share/glib-2.0/schemas/org.mate.screensaver.gschema.xml
