@@ -27,7 +27,7 @@ class Config:
     """ADP Configuration"""
     def __init__( self ):
         global configuration
-        self.VERSION = '0.1'
+        self.VERSION = '1.0'
         self.TEMPLATE_PATH="/usr/libexec/adp"
         self.LOG_DIR="/var/log/adp/"
         self.CACHED_LIST="/var/lib/adp/cached_list.db"
