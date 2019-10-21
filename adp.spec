@@ -38,6 +38,7 @@ Requires: alterator-sh-functions
 Requires: alterator-net-domain
 Requires: alterator-l10n
 Requires: %name-templates
+Requires: task-samba-dc
 
 %description -n alterator-domain-policy
 Alterator module for configure ALT Domain Policy.
