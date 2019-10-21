@@ -9,6 +9,8 @@
 	<requires type="package">apt</requires>
 	<script>machine.package.reinstall.sh</script>
 	<parameters>
-		<param type="string">packages</param>
+		<param type="string" name="packages" default="">
+			<label xml:lang="ru">Пакеты (через пробел)</label>
+		</param>
 	</parameters>
 </policy_template>

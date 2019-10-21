@@ -10,4 +10,4 @@ LENGTH4="$4"
 LENGTH5="$5"
 
 #echo "minlen = $LENGTH" >> /etc/security/pwquality.conf
-sed "s|min=.*|min=$LENGTH1,$LENGTH2,$LENGTH3,$LENGTH4,$LENGTH5" /etc/passwdqc.conf
+sed -i "s|min=.*|min=$LENGTH1,$LENGTH2,$LENGTH3,$LENGTH4,$LENGTH5|" /etc/passwdqc.conf

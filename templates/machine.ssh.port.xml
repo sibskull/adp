@@ -11,6 +11,8 @@
 	<requires type="package">sed</requires>
 	<script>machine.ssh.port.sh</script>
 	<parameters>
-		<param type="integer">port</param>
+		<param type="integer" name="port" default="">
+			<label xml:lang="ru">Порт</label>
+		</param>
 	</parameters>
 </policy_template>

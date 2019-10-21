@@ -12,8 +12,14 @@
 	<requires type="package">systemd-utils</requires>
 	<script>machine.ssh.access.sh</script>
 	<parameters>
-		<param type="boolean">switch</param>
-		<param type="string">user</param>
-		<param type="string">group</param>
+		<param type="boolean" name="switch" default="">
+			<label xml:lang="ru">Позволить доступ</label>
+		</param>
+		<param type="string" name="user" default="">
+			<label xml:lang="ru">Пользователи (через запятую)</label>
+		</param>
+		<param type="string" name="group" default="">
+			<label xml:lang="ru">Группы (через запятую)</label>
+		</param>
 	</parameters>
 </policy_template>

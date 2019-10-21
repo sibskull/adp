@@ -9,6 +9,8 @@
 	<requires type="package">systemd-services</requires>
 	<script>machine.ntp.switch.sh</script>
 	<parameters>
-		<param type="boolean">switch</param>
+		<param type="boolean" name="switch" default="">
+			<label xml:lang="ru">Использовать</label>
+		</param>
 	</parameters>
 </policy_template>

@@ -9,11 +9,23 @@
 	<requires type="package">shadow-utils</requires>
 	<script>machine.accounts.add.sh</script>
 	<parameters>
-		<param type="string">user</param>
-		<param type="string">comment</param>
-		<param type="string">passwd</param>
-		<param type="string">additional_groups</param>
-		<param type="string">time_limit</param>
-		<param type="string">shell</param>
+		<param type="string" name="user" default="">
+			<label xml:lang="ru">Логин</label>
+		</param>
+		<param type="string" name="comment" default="">
+			<label xml:lang="ru">Комментарий</label>
+		</param>
+		<param type="string" name="passwd" default="">
+			<label xml:lang="ru">Пароль</label>
+		</param>
+		<param type="string" name="additional_groups" default="">
+			<label xml:lang="ru">Дополнительные группы</label>
+		</param>
+		<param type="string" name="time_limit" default="">
+			<label xml:lang="ru">Время активности аккаунта</label>
+		</param>
+		<param type="string" name="shell" default="">
+			<label xml:lang="ru">Оболочка по умолчанию (bash и т.д.)</label>
+		</param>
 	</parameters>
 </policy_template>

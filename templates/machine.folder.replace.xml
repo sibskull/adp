@@ -9,7 +9,11 @@
 	<requires type="package">coreutils</requires>
 	<script>machine.folder.replace.sh</script>
 	<parameters>
-		<param type="string">from_folder</param>
-		<param type="string">to_folder</param>
+		<param type="string" name="from_folder" default="">
+			<label xml:lang="ru">Путь до исходного каталога</label>
+		</param>
+		<param type="string" name="to_folder" default="">
+			<label xml:lang="ru">Путь до заменяемого каталога</label>
+		</param>
 	</parameters>
 </policy_template>

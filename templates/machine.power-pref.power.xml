@@ -9,6 +9,8 @@
 	<requires type="de">mate</requires>
 	<script>machine.power-pref.power.sh</script>
 	<parameters>
-		<param type="string">action</param>
+		<param type="string" name="action" default="">
+			<label xml:lang="ru">Действие (nothing/suspend/hibernate/shutdown/interactive)</label>
+		</param>
 	</parameters>
 </policy_template>

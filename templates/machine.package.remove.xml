@@ -9,7 +9,11 @@
 	<requires type="package">apt</requires>
 	<script>machine.package.remove.sh</script>
 	<parameters>
-		<param type="boolean">clean_settings</param>
-		<param type="string">packages</param>
+		<param type="boolean" name="clean_settings" default="">
+			<label xml:lang="ru">Удаление настроек пакетов</label>
+		</param>
+		<param type="string" name="packages" default="">
+			<label xml:lang="ru">Пакеты (через пробел)</label>
+		</param>
 	</parameters>
 </policy_template>

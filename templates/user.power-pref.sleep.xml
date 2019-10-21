@@ -9,6 +9,8 @@
 	<requires type="de">mate</requires>
 	<script>user.power-pref.sleep.sh</script>
 	<parameters>
-		<param type="integer">time</param>
+		<param type="integer" name="time" default="">
+			<label xml:lang="ru">Время (в секундах)</label>
+		</param>
 	</parameters>
 </policy_template>

@@ -9,6 +9,8 @@
 	<requires type="de">mate</requires>
 	<script>machine.screensaver.lock.sh</script>
 	<parameters>
-		<param type="boolean">state</param>
+		<param type="boolean" name="state" default="">
+			<label xml:lang="ru">Состояние</label>
+		</param>
 	</parameters>
 </policy_template>

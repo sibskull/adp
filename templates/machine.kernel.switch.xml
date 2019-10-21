@@ -9,6 +9,8 @@
 	<requires type="package">update-kernel</requires>
 	<script>machine.kernel.switch.sh</script>
 	<parameters>
-		<param type="string">kernel</param>
+		<param type="string" name="kernel" default="">
+			<label xml:lang="ru">Тип ядра (std-def/un-def)</label>
+		</param>
 	</parameters>
 </policy_template>

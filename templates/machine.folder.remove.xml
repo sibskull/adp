@@ -9,6 +9,8 @@
 	<requires type="package">coreutils</requires>
 	<script>machine.folder.remove.sh</script>
 	<parameters>
-		<param type="string">directory</param>
+		<param type="string" name="directory" default="">
+			<label xml:lang="ru">Путь до каталога</label>
+		</param>
 	</parameters>
 </policy_template>

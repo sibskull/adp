@@ -9,7 +9,11 @@
 	<requires type="package">coreutils</requires>
 	<script>machine.file.replace.sh</script>
 	<parameters>
-		<param type="string">from_file</param>
-		<param type="string">to_file</param>
+		<param type="string" name="from_file" default="">
+			<label xml:lang="ru">Путь до исходного файла</label>
+		</param>
+		<param type="string" name="to_file" default="">
+			<label xml:lang="ru">Путь до заменяемого файла</label>
+		</param>
 	</parameters>
 </policy_template>

@@ -11,6 +11,8 @@
 	<requires type="package">libgio</requires>
 	<script>machine.vnc.prompt.sh</script>
 	<parameters>
-		<param type="boolean">switch</param>
+		<param type="boolean" name="switch" default="">
+			<label xml:lang="ru">Статус</label>
+		</param>
 	</parameters>
 </policy_template>

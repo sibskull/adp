@@ -10,6 +10,8 @@
 	<requires type="package">openssh-server</requires>
 	<script>machine.ssh.switch.sh</script>
 	<parameters>
-		<param type="boolean">switch</param>
+		<param type="boolean" name="switch" default="">
+			<label xml:lang="ru">Состояние</label>
+		</param>
 	</parameters>
 </policy_template>

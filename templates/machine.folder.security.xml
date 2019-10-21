@@ -9,8 +9,14 @@
 	<requires type="package">coreutils</requires>
 	<script>machine.folder.security.sh</script>
 	<parameters>
-		<param type="string">directory</param>
-		<param type="string">user</param>
-		<param type="string">group</param>
+		<param type="string" name="directory" default="">
+			<label xml:lang="ru">Путь до каталога</label>
+		</param>
+		<param type="string" name="user" default="">
+			<label xml:lang="ru">Права для пользователя</label>
+		</param>
+		<param type="string" name="group" default="">
+			<label xml:lang="ru">Права для группы</label>
+		</param>
 	</parameters>
 </policy_template>

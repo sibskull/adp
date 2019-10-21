@@ -10,9 +10,17 @@
 	<requires type="package">coreutils</requires>
 	<script>user.ssh.authentication.sh</script>
 	<parameters>
-		<param type="string">user</param>
-		<param type="string">password</param>
-		<param type="integer">port</param>
-		<param type="string">host</param>
+		<param type="string" name="user" default="">
+			<label xml:lang="ru">Логин</label>
+		</param>
+		<param type="string" name="password" default="">
+			<label xml:lang="ru">Пароль</label>
+		</param>
+		<param type="integer" name="port" default="">
+			<label xml:lang="ru">Порт</label>
+		</param>
+		<param type="string" name="host" default="">
+			<label xml:lang="ru">Хост</label>
+		</param>
 	</parameters>
 </policy_template>

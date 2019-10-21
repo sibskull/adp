@@ -9,6 +9,8 @@
 	<requires type="de">mate</requires>
 	<script>machine.power-pref.icon.sh</script>
 	<parameters>
-		<param type="string">status</param>
+		<param type="string" name="status" default="">
+			<label xml:lang="ru">Статус отображения (never/low/charge/present/always)</label>
+		</param>
 	</parameters>
 </policy_template>

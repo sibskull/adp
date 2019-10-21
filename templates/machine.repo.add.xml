@@ -9,6 +9,8 @@
 	<requires type="package">apt-repo</requires>
 	<script>machine.repo.add.sh</script>
 	<parameters>
-		<param type="string">repo</param>
+		<param type="string" name="repo" default="">
+			<label xml:lang="ru">Репозиторий</label>
+		</param>
 	</parameters>
 </policy_template>

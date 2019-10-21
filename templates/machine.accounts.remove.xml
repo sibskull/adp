@@ -13,6 +13,8 @@
 	<requires type="package">tar</requires>
 	<script>machine.accounts.remove.sh</script>
 	<parameters>
-		<param type="string">user</param>
+		<param type="string" name="user" default="">
+			<label xml:lang="ru">Логин</label>
+		</param>
 	</parameters>
 </policy_template>

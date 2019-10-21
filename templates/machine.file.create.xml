@@ -9,7 +9,11 @@
 	<requires type="package">coreutils</requires>
 	<script>machine.file.create.sh</script>
 	<parameters>
-		<param type="string">file</param>
-		<param type="string">directory</param>
+		<param type="string" name="file" default="">
+			<label xml:lang="ru">Название файла</label>
+		</param>
+		<param type="string" name="directory" default="">
+			<label xml:lang="ru">Расположение</label>
+		</param>
 	</parameters>
 </policy_template>

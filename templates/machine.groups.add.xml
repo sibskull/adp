@@ -11,8 +11,11 @@
 	<requires type="package">vmail-tools</requires>
 	<script>machine.groups.add.sh</script>
 	<parameters>
-		<param type="string">group</param>
-		<param type="string">password</param>
-
+		<param type="string" name="group" default="">
+			<label xml:lang="ru">Группа</label>
+		</param>
+		<param type="string" name="password" default="">
+			<label xml:lang="ru">Пароль</label>
+		</param>
 	</parameters>
 </policy_template>

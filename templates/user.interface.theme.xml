@@ -10,9 +10,17 @@
 	<requires de="mate" type="package">libgio</requires>
 	<script>user.interface.theme.sh</script>
 	<parameters>
-		<param type="string">theme</param>
-		<param type="string">icon</param>
-		<param type="string">panel_position</param>
-		<param type="string">window_decoration</param>
+		<param type="string" name="theme" default="">
+			<label xml:lang="ru">Тема</label>
+		</param>
+		<param type="string" name="icon" default="">
+			<label xml:lang="ru">Значки</label>
+		</param>
+		<param type="string" name="panel_position" default="">
+			<label xml:lang="ru">Позиция панели (top/bottom)</label>
+		</param>
+		<param type="string" name="window_decoration" default="">
+			<label xml:lang="ru">Оформление окон</label>
+		</param>
 	</parameters>
 </policy_template>

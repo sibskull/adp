@@ -9,6 +9,8 @@
 	<requires type="de">mate</requires>
 	<script>user.power-pref.suspend.sh</script>
 	<parameters>
-		<param type="string">action</param>
+		<param type="string" name="action" default="">
+			<label xml:lang="ru">Действие (nothing/suspend/hibernate)</label>
+		</param>
 	</parameters>
 </policy_template>

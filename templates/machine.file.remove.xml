@@ -9,6 +9,8 @@
 	<requires type="package">coreutils</requires>
 	<script>machine.file.remove.sh</script>
 	<parameters>
-		<param type="string">file</param>
+		<param type="string" name="file" default="">
+			<label xml:lang="ru">Путь до файла</label>
+		</param>
 	</parameters>
 </policy_template>

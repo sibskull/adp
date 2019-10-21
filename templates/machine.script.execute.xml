@@ -10,7 +10,11 @@
 	<requires type="package">vixie-cron</requires>
 	<script>machine.script.execute.sh</script>
 	<parameters>
-		<param type="string">script</param>
-		<param type="string">time</param>
+		<param type="string" name="script" default="">
+			<label xml:lang="ru">Путь к скрипту</label>
+		</param>
+		<param type="string" name="time" default="">
+			<label xml:lang="ru">Время выполнения</label>
+		</param>
 	</parameters>
 </policy_template>

@@ -11,6 +11,8 @@
 	<requires type="package">libgio</requires>
 	<script>user.vnc.icon.sh</script>
 	<parameters>
-		<param type="string">status</param>
+		<param type="string" name="status" default="">
+			<label xml:lang="ru">Статус (client/always/never)</label>
+		</param>
 	</parameters>
 </policy_template>

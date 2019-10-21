@@ -2,13 +2,15 @@
 
 <policy_template>
 	<id>machine.ntp.timezone</id>
-	<name>Add the address of the NTP server</name>
-	<name xml:lang="ru">Добавить адрес NTP-сервера</name>
+	<name>Set the time zone</name>
+	<name xml:lang="ru">Установить часовой пояс</name>
 	<version>0.1</version>
 	<class>machine</class>
 	<requires type="package">systemd-services</requires>
 	<script>machine.ntp.timezone.sh</script>
 	<parameters>
-		<param type="string">zone</param>
+		<param type="string" name="zone" default="">
+			<label xml:lang="ru">Часовой пояс</label>
+		</param>
 	</parameters>
 </policy_template>

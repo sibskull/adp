@@ -10,6 +10,8 @@
 	<requires de="mate" type="package">nss-utils</requires>
 	<script>user.cacert.remove.sh</script>
 	<parameters>
-		<param type="string">title</param>
+		<param type="string" name="title" default="">
+			<label xml:lang="ru">Наименование сертификата</label>
+		</param>
 	</parameters>
 </policy_template>

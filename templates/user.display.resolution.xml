@@ -10,9 +10,17 @@
 	<requires type="package">coreutils</requires>
 	<script>user.display.resolution.sh</script>
 	<parameters>
-		<param type="string">resolution</param>
-		<param type="double">rate</param>
-		<param type="string">rotate</param>
-		<param type="string" optional="yes">output</param>
+		<param type="string" name="resolution" default="">
+			<label xml:lang="ru">Разрешение</label>
+		</param>
+		<param type="double" name="rate" default="">
+			<label xml:lang="ru">Частота</label>
+		</param>
+		<param type="string" name="rotate" default="">
+			<label xml:lang="ru">Поворот (left/right/normal/inverted)</label>
+		</param>
+		<param type="string" name="output" optional="yes" default="">
+			<label xml:lang="ru">Выход (HDMA1/VGA1/DVI1/LVDS1)</label>
+		</param>
 	</parameters>
 </policy_template>

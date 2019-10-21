@@ -12,6 +12,8 @@
 	<requires type="package">systemd-utils</requires>
 	<script>machine.ntp.address.sh</script>
 	<parameters>
-		<param type="string">address</param>
+		<param type="string" name="address" default="">
+			<label xml:lang="ru">Адрес</label>
+		</param>
 	</parameters>
 </policy_template>
