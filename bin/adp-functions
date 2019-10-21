@@ -12,21 +12,28 @@ adp_copy_file()
 		mkdir -p "$target_dir"
 	fi
 
-	# Find file, server and folder in location
-	source_file="$(basename "$location")"
-	location="$(dirname "$location")"
-	location=${location#smb:}
-	folder=${location#//*/*/}
+	if [[ "$location" =~ ^ftp.*|^http.*  ]]; then
+		curl -o "$target_file" "$location"
+	elif [[ "$location" =~ ^smb.*  ]]; then
+		# Find file, server and folder in location
+		source_file="$(basename "$location")"
+		location="$(dirname "$location")"
+		location=${location#smb:}
+		folder=${location#//*/*/}
 
-	if [[ -z "$folder" || "$folder" = "$location" ]]; then
-		share="$location"
-		cd_folder=""
+		if [[ -z "$folder" || "$folder" = "$location" ]]; then
+			share="$location"
+			cd_folder=""
+		else
+			share=${location//$folder}
+			cd_folder="cd $folder; "
+		fi
+
+		cd /tmp
+		smbclient -N -k $share -c "prompt OFF; $cd_folder get $source_file"
+		mv $source_file $target_file
 	else
-		share=${location//$folder}
-		cd_folder="cd $folder; "
+		echo "URL is invalid"
+		exit 1
 	fi
-
-	cd /tmp
-	smbclient -N -k $share -c "prompt OFF; $cd_folder get $source_file"
-	mv $source_file $target_file
 }
