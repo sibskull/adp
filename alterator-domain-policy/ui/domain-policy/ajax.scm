@@ -17,10 +17,11 @@
 
 ; Write rule values
 (define (undefined)
+   ;(format #t "EDATA: ~S\n" (form-value "edata"))
    (catch/message
      (lambda()
        (apply woo-write "domain-policy"
-              (form-value-list '("policy" "class" "data64" ))))))
+              (form-value-list '( "policy" "class" "edata" ))))))
 
 ;;;
 (define (init)
