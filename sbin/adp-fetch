@@ -1,12 +1,15 @@
 #!/bin/sh
 
+# Read system-wide configuration
 if [ -e /etc/sysconfig/adp ]
 then
 	. /etc/sysconfig/adp
 fi
-
 [ "$VERBOSE" == "yes" ] && ADP_VERBOSE=-v
 [ "$DEBUG" == "yes" ] && ADP_DEBUG=-d
+
+# Ignore local users
+grep -qs "^$PAM_USER:" /etc/passwd && exit 0
 
 # Run adp fetch in session start
 if [ "$PAM_TYPE" == "open_session" ]
