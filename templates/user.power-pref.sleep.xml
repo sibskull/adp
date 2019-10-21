@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policy_template>
+	<id>user.power-pref.sleep</id>
+	<name>Enable/disable lock the screen when the screensaver goes active</name>
+	<name xml:lang="ru">Настройка времени приостановки компьютера при бездействии</name>
+	<version>0.1</version>
+	<class>user</class>
+	<requires type="de">mate</requires>
+	<script>user.power-pref.sleep.sh</script>
+	<parameters>
+		<param type="integer">time</param>
+	</parameters>
+</policy_template>
