@@ -3,7 +3,6 @@
 <policies>
 	<policy>
 		<template>user.background.image</template>
-		<param name="image">comet.jpg</param>
-		<param name="location">smb://serv/share/path_to_image</param>
+		<param name="location">smb://serv/share/path_to_image/comet.jpg</param>
 	</policy>
 </policies>
