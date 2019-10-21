@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policy_template>
+	<id>machine.screensaver.theme</id>
+	<name>Set screensaver mode/theme</name>
+	<name xml:lang="ru">Включение/отключение блокировки экрана при активном хранителе экрана</name>
+	<version>0.1</version>
+	<class>machine</class>
+	<requires type="de">mate</requires>
+	<script>machine.screensaver.theme.sh</script>
+	<parameters>
+		<param type="string" default="single">mode</param>
+		<param type="string">theme</param>
+	</parameters>
+</policy_template>

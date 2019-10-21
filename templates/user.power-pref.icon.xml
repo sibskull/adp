@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policy_template>
+	<id>user.power-pref.icon</id>
+	<name>Enable/disable lock the screen when the screensaver goes active</name>
+	<name xml:lang="ru">Настройка отображения значка батареи</name>
+	<version>0.1</version>
+	<class>user</class>
+	<requires type="de">mate</requires>
+	<script>user.power-pref.icon.sh</script>
+	<parameters>
+		<param type="string">status</param>
+	</parameters>
+</policy_template>

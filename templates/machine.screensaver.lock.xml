@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policy_template>
+	<id>machine.screensaver.lock</id>
+	<name>Enable/disable lock the screen when the screensaver goes active</name>
+	<name xml:lang="ru">Включение/отключение блокировки экрана при активном хранителе экрана</name>
+	<version>0.1</version>
+	<class>machine</class>
+	<requires type="de">mate</requires>
+	<script>machine.screensaver.lock.sh</script>
+	<parameters>
+		<param type="boolean">state</param>
+	</parameters>
+</policy_template>

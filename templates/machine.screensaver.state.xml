@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policy_template>
+	<id>machine.screensaver.state</id>
+	<name>Enable/disable the screensaver</name>
+	<name xml:lang="ru">Включение/отключение хранителя экрана</name>
+	<version>0.1</version>
+	<class>machine</class>
+	<requires type="de">mate</requires>
+	<script>machine.screensaver.state.sh</script>
+	<parameters>
+		<param type="boolean">state</param>
+	</parameters>
+</policy_template>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policy_template>
+	<id>machine.power-pref.power</id>
+	<name>Enable/disable lock the screen when the screensaver goes active</name>
+	<name xml:lang="ru">Установка действия при нажатии кнопки питания</name>
+	<version>0.1</version>
+	<class>machine</class>
+	<requires type="de">mate</requires>
+	<script>machine.power-pref.power.sh</script>
+	<parameters>
+		<param type="string">action</param>
+	</parameters>
+</policy_template>
