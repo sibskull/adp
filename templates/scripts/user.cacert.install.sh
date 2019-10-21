@@ -3,16 +3,16 @@
 . adp-functions
 
 # Install CA certificate for user
-CERT="$1"
-LOCATION="$2"
-TITLE="$3" #For example, url or name cert in DB
+LOCATION="$1"
+TITLE="$2" #For example, url or name cert in DB
 
 NSSDB="$HOME/.pki/nssdb"
 mkdir -p $NSSDB
 
 # Copy cert from location
+CERT="$(basename "$LOCATION")"
 CERT_PATH="$NSSDB/$CERT"
-adp_copy_file "$LOCATION" "$CERT" "$CERT_PATH"
+adp_copy_file "$LOCATION" "$CERT_PATH"
 
 #for chromium
 if [ ! -f "$NSSDB/cert9.db" ]; then
