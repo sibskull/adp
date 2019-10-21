@@ -1,5 +1,5 @@
 Name:     adp
-Version:  0.1
+Version:  1.0
 Release:  alt1
 
 Summary:  ALT Domain Policy
@@ -38,6 +38,7 @@ Requires: alterator-sh-functions
 Requires: alterator-net-domain
 Requires: alterator-l10n
 Requires: %name-templates
+Requires: task-samba-dc
 
 %description -n alterator-domain-policy
 Alterator module for configure ALT Domain Policy.
@@ -94,5 +95,5 @@ cd alterator-domain-policy
 %_alterator_datadir/ui/*/*
 
 %changelog
-* Wed Sep 18 2019 Andrey Cherepanov <cas@altlinux.org> 0.1-alt1
-- Initial build in Sisyphus
+* Sun Oct 20 2019 Andrey Cherepanov <cas@altlinux.org> 1.0-alt1
+- Initial build for Sisyphus
