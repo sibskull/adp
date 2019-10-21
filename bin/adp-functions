@@ -4,7 +4,6 @@
 adp_copy_file() 
 {
 	location="$1"; shift
-	source_file="$1"; shift
 	target_file="$1"; shift
 
 	# Make path for target_file
@@ -13,11 +12,13 @@ adp_copy_file()
 		mkdir -p "$target_dir"
 	fi
 
-	# Find server and folder in location
+	# Find file, server and folder in location
+	source_file="$(basename "$location")"
+	location="$(dirname "$location")"
 	location=${location#smb:}
 	folder=${location#//*/*/}
 
-	if [[ -z "$folder" || "$folder" -eq "$location" ]]; then
+	if [[ -z "$folder" || "$folder" = "$location" ]]; then
 		share="$location"
 		cd_folder=""
 	else

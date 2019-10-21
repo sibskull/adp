@@ -3,11 +3,11 @@
 . adp-functions
 
 # Set background image for user
-IMAGE="$1"
-LOCATION="$2"
+LOCATION="$1"
 
 # Copy image from location
+IMAGE="$(basename "$LOCATION")"
 IMAGE_PATH="$(xdg-user-dir PICTURES)/.$IMAGE"
-adp_copy_file "$LOCATION" "$IMAGE" "$IMAGE_PATH"
+adp_copy_file "$LOCATION" "$IMAGE_PATH"
 
 gsettings set org.mate.background picture-filename "$IMAGE_PATH"
