@@ -10,3 +10,21 @@ alterator-domain-policy
 [root@dc0 ~]# mkdir /var/lib/samba/sysvol/alt.domain/templates
 [root@dc0 ~]# mount /usr/libexec/adp /var/lib/samba/sysvol/alt.domain/templates -o bind
 
+2. Processing multiple identical templates
+<policy>
+  <template>user.cacert.install</template> 
+  <param name="location">smb://dc0.alt.domain/netlogon/CA/zimbra.crt</param> 
+  <param name="title">Zimbra Mail</param> 
+</policy>
+<policy>
+  <template>user.cacert.install</template> 
+  <param name="location">smb://dc0.alt.domain/netlogon/CA/nextcloud.crt</param> 
+  <param name="title">Nextcloud</param> 
+</policy>
+
+adp-tempates
+------------
+
+- Fix/check template machine.script.execute, copy it to user.script.execute
+- {folder,file}.security -> *.{chmod,chown}
+- folder.{chmod,chown} - add recursion, for files, for folders
