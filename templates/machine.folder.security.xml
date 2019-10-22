@@ -13,10 +13,13 @@
 			<label xml:lang="ru">Путь до каталога</label>
 		</param>
 		<param type="string" name="user" default="">
-			<label xml:lang="ru">Права для пользователя</label>
+			<label xml:lang="ru">Владелец</label>
 		</param>
 		<param type="string" name="group" default="">
-			<label xml:lang="ru">Права для группы</label>
+			<label xml:lang="ru">Группа</label>
+		</param>
+		<param type="string" name="mode" default="">
+			<label xml:lang="ru">Права (владелец группа остальные)</label>
 		</param>
 	</parameters>
 </policy_template>
