@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policy_template>
+	<id>user.file.replace</id>
+	<name>Replace the file</name>
+	<name xml:lang="ru">Заменить файл</name>
+	<version>0.1</version>
+	<class>user</class>
+	<requires type="package">coreutils</requires>
+	<script>user.file.replace.sh</script>
+	<parameters>
+		<param type="string" name="from_file" default="">
+			<label xml:lang="ru">Путь до исходного файла</label>
+		</param>
+		<param type="string" name="to_file" default="">
+			<label xml:lang="ru">Путь до заменяемого файла</label>
+		</param>
+	</parameters>
+</policy_template>
