@@ -66,7 +66,7 @@ class Template:
 
         return content
 
-    def execute( self, args=[] ):
+    def execute( self, args={} ):
         """Execute local template with specified arguments"""                                                                                           
         if self.template == '':
             logging.fatal( "Please, specify template name" )
@@ -98,12 +98,31 @@ class Template:
         script = t.find( "script" )
         if script != None and script.text:
             script_file = "%s/scripts/%s" % ( cfg.TEMPLATE_PATH, script.text )
-            # TODO Check arguments
-            a = args
-            a.insert(0, script_file )
+            a = [ script_file ]
 
-            # Replace None items in args by ''
-            a = list( map( lambda x: '' if x == None else x, a ) )
+            # Get arguments from template
+            for p in t.findall( "parameters/param" ):
+                if 'name' in p.attrib:
+                    name = p.attrib['name']
+                else:
+                    name = p.text
+                if 'type' in p.attrib:
+                    type = p.attrib['type']
+                else:
+                    type = p.text
+                default = p.attrib['default'] if 'default' in p.attrib else ''
+
+                # Fill real values from passed parameters
+                val = args.get( name, default )
+
+                # Check type of boolean values
+                if type == 'boolean':
+                    if val == 'on' or val == 'true':
+                        val = 'true'
+                    else:
+                        val = 'false'
+
+                a.append( val )
 
             # Run script
             logging.debug( "Run script %s" % ( ' '.join( a ) ))

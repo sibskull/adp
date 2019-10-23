@@ -98,4 +98,11 @@ else:
         print( t.content() )
 
     elif args.command == 'apply':
-        t.execute( args.args )
+        params = {}
+        # Iterate through params containing =
+        for p in args.args:
+            l = p.split( '=' )
+            if len(l) > 1:
+                params[ l[0] ] = l[1]
+
+        t.execute( params )

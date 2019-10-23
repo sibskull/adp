@@ -81,9 +81,10 @@ class Policy:
             else:
                 version = ''
             # Fill arguments
-            args = []
+            args = {}
             for i in policy.findall( 'param' ):
-                args.append( i.text )
+                param_name = i.attrib.get( 'name', 'param' )
+                args[ param_name ] = i.text
 
             # Apply policy
             logging.info( "Apply policy with template %s" % ( template ) )
