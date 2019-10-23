@@ -12,7 +12,9 @@ adp_copy_file()
 		mkdir -p "$target_dir"
 	fi
 
-	if [[ "$location" =~ ^ftp.*|^http.*  ]]; then
+	if [[ "$location" =~ ^\/.*|^\$.*  ]]; then
+		install "$location" "$target_file"
+	elif [[ "$location" =~ ^ftp.*|^http.*  ]]; then
 		curl -o "$target_file" "$location"
 	elif [[ "$location" =~ ^smb.*  ]]; then
 		# Find file, server and folder in location
