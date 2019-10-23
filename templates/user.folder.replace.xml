@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policy_template>
+	<id>user.folder.replace</id>
+	<name>Replace the folder</name>
+	<name xml:lang="ru">Заменить каталог</name>
+	<version>0.1</version>
+	<class>user</class>
+	<requires type="package">coreutils</requires>
+	<script>user.folder.replace.sh</script>
+	<parameters>
+		<param type="string" name="from_folder" default="">
+			<label xml:lang="ru">Путь до исходного каталога</label>
+		</param>
+		<param type="string" name="to_folder" default="">
+			<label xml:lang="ru">Путь до заменяемого каталога</label>
+		</param>
+	</parameters>
+</policy_template>

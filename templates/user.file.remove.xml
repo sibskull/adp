@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policy_template>
+	<id>user.file.remove</id>
+	<name>Remove the file</name>
+	<name xml:lang="ru">Удалить файл</name>
+	<version>0.1</version>
+	<class>user</class>
+	<requires type="package">coreutils</requires>
+	<script>user.file.remove.sh</script>
+	<parameters>
+		<param type="string" name="file" default="">
+			<label xml:lang="ru">Путь до файла</label>
+		</param>
+	</parameters>
+</policy_template>

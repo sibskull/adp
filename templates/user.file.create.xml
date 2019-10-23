@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policy_template>
+	<id>user.file.create</id>
+	<name>Create new file</name>
+	<name xml:lang="ru">Создать новый файл</name>
+	<version>0.1</version>
+	<class>user</class>
+	<requires type="package">coreutils</requires>
+	<script>user.file.create.sh</script>
+	<parameters>
+		<param type="string" name="file" default="">
+			<label xml:lang="ru">Название файла</label>
+		</param>
+		<param type="string" name="directory" default="">
+			<label xml:lang="ru">Расположение</label>
+		</param>
+	</parameters>
+</policy_template>
