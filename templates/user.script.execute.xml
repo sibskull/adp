@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policy_template>
+	<id>user.script.execute</id>
+	<name>Execute arbitrary script for user</name>
+	<name xml:lang="ru">Выполнить произвольный скрипт для пользователя</name>
+	<version>0.1</version>
+	<class>user</class>
+	<script>user.script.execute.sh</script>
+	<parameters>
+		<param type="string" name="script" default="">
+			<label xml:lang="ru">Путь к скрипту</label>
+		</param>
+	</parameters>
+</policy_template>
