@@ -174,13 +174,22 @@ class GPOList:
         # mount -t cifs //dc0.alt.domain/sysvol /tmp/aa -o sec=krb5,ro
         cmd = [ 'mount', '-t', 'cifs', connection, tmp, '-o', 'sec=krb5,ro' ]
         logging.debug( ''.join( cmd ) )
-        output = subprocess.check_output( cmd, stderr=subprocess.STDOUT ).decode()
+
+        try:
+            output = subprocess.check_output( cmd, stderr=subprocess.STDOUT ).decode()
+        except:
+            logging.fatal( "Unable to mount %s" % ( connection ) )
+            return
 
         # rsync content
         if os.path.isdir( r_path ):
             cmd = [ 'rsync', '-vaP', '--delete', r_path, l_path ]
             logging.debug( ''.join( cmd ) )
-            output = subprocess.check_output( cmd, stderr=subprocess.STDOUT ).decode()
+            try:
+                output = subprocess.check_output( cmd, stderr=subprocess.STDOUT ).decode()
+            except:
+                logging.fatal( "Unable to mount %s" % ( connection ) )
+                return
             logging.debug( output )
 
         # Umount share
