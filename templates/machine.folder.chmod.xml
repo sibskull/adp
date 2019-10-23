@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policy_template>
+	<id>machine.folder.security</id>
+	<name>Set the permissions of the directory</name>
+	<name xml:lang="ru">Установить права на каталог</name>
+	<version>0.1</version>
+	<class>machine</class>
+	<requires type="package">coreutils</requires>
+	<script>machine.folder.security.sh</script>
+	<parameters>
+		<param type="string" name="directory" default="">
+			<label xml:lang="ru">Путь до каталога</label>
+		</param>
+		<param type="string" name="mode" default="">
+			<label xml:lang="ru">Права (владелец группа остальные)</label>
+		</param>
+	</parameters>
+</policy_template>

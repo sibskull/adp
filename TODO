@@ -26,5 +26,4 @@ adp-tempates
 ------------
 
 - Fix/check template machine.script.execute, copy it to user.script.execute
-- {folder,file}.security -> *.{chmod,chown}
 - folder.{chmod,chown} - add recursion, for files, for folders

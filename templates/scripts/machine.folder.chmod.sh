@@ -3,9 +3,6 @@
 . adp-functions
 
 DIRECTORY="$1"
-USER="$2"
-GROUP="$3"
-MODE="$4"
+MODE="$2"
 
-chown -R "$USER":"$GROUP" "$DIRECTORY"
 chmod "$MODE" "$DIRECTORY"

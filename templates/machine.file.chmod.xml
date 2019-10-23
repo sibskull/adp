@@ -1,22 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
 <policy_template>
-	<id>machine.file.security</id>
+	<id>machine.file.chmod</id>
 	<name>Set the permissions of the file</name>
 	<name xml:lang="ru">Установить права на файл</name>
 	<version>0.1</version>
 	<class>machine</class>
 	<requires type="package">coreutils</requires>
-	<script>machine.file.security.sh</script>
+	<script>machine.file.chmod.sh</script>
 	<parameters>
 		<param type="string" name="file" default="">
 			<label xml:lang="ru">Путь до файла</label>
-		</param>
-		<param type="string" name="user" default="">
-			<label xml:lang="ru">Владелец</label>
-		</param>
-		<param type="string" name="group" default="">
-			<label xml:lang="ru">Группа</label>
 		</param>
 		<param type="string" name="mode" default="">
 			<label xml:lang="ru">Права (владелец группа остальные)</label>
