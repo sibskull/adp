@@ -2,8 +2,8 @@
 
 <policy_template>
 	<id>machine.folder.security</id>
-	<name>Set the permissions of the directory</name>
-	<name xml:lang="ru">Установить права на каталог</name>
+	<name>Set the owner of the directory</name>
+	<name xml:lang="ru">Установить владельца каталога</name>
 	<version>0.1</version>
 	<class>machine</class>
 	<requires type="package">coreutils</requires>
@@ -17,9 +17,6 @@
 		</param>
 		<param type="string" name="group" default="">
 			<label xml:lang="ru">Группа</label>
-		</param>
-		<param type="string" name="mode" default="">
-			<label xml:lang="ru">Права (владелец группа остальные)</label>
 		</param>
 	</parameters>
 </policy_template>

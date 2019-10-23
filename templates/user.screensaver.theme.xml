@@ -3,7 +3,7 @@
 <policy_template>
 	<id>user.screensaver.theme</id>
 	<name>Set screensaver mode/theme</name>
-	<name xml:lang="ru">Включение/отключение блокировки экрана при активном хранителе экрана</name>
+	<name xml:lang="ru">Тема хранителя экрана</name>
 	<version>0.1</version>
 	<class>user</class>
 	<requires type="de">mate</requires>

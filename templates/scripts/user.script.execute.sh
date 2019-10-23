@@ -4,7 +4,7 @@
 
 SCRIPT="$1"
 
-SCRIPTS_DIR=/tmp/adp-root
+SCRIPTS_DIR=/tmp/adp-$USER
 mkdir -p $SCRIPTS_DIR
 SCRIPT_PATH="$SCRIPTS_DIR/$(basename $SCRIPT)"
 

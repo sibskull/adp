@@ -2,19 +2,14 @@
 
 <policy_template>
 	<id>machine.script.execute</id>
-	<name>Execute arbitrary script for machine and user at a certain time</name>
-	<name xml:lang="ru">Выполнить произвольный скрипт для компьютера и пользователя в определённое время</name>
+	<name>Execute arbitrary script for machine</name>
+	<name xml:lang="ru">Выполнить произвольный скрипт для компьютера</name>
 	<version>0.1</version>
 	<class>machine</class>
-<!--	<requires type="package">coreutils</requires>-->
-	<requires type="package">vixie-cron</requires>
 	<script>machine.script.execute.sh</script>
 	<parameters>
 		<param type="string" name="script" default="">
 			<label xml:lang="ru">Путь к скрипту</label>
-		</param>
-		<param type="string" name="time" default="">
-			<label xml:lang="ru">Время выполнения</label>
 		</param>
 	</parameters>
 </policy_template>

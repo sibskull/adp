@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policy_template>
+	<id>machine.file.chown</id>
+	<name>Set the owner of the file</name>
+	<name xml:lang="ru">Установить владельца файла</name>
+	<version>0.1</version>
+	<class>machine</class>
+	<requires type="package">coreutils</requires>
+	<script>machine.file.chown.sh</script>
+	<parameters>
+		<param type="string" name="file" default="">
+			<label xml:lang="ru">Путь до файла</label>
+		</param>
+		<param type="string" name="user" default="">
+			<label xml:lang="ru">Владелец</label>
+		</param>
+		<param type="string" name="group" default="">
+			<label xml:lang="ru">Группа</label>
+		</param>
+	</parameters>
+</policy_template>
