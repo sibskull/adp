@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policy_template>
+	<id>machine.accounts.addgroup</id>
+	<name>Add local user to groups</name>
+	<name xml:lang="ru">Добавление локального пользователя в группы</name>
+	<version>0.1</version>
+	<class>machine</class>
+	<requires type="package">shadow-groups</requires>
+	<script>machine.accounts.addgroup.sh</script>
+	<parameters>
+		<param type="string" name="user" default="">
+			<label xml:lang="ru">Логин</label>
+		</param>
+		<param type="string" name="comment" default="">
+			<label xml:lang="ru">Группы (через пробел)</label>
+		</param>
+	</parameters>
+</policy_template>

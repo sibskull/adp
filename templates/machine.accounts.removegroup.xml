@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policy_template>
+	<id>machine.accounts.removegroup</id>
+	<name>Remove local user from groups</name>
+	<name xml:lang="ru">Удаление локального пользователя из групп</name>
+	<version>0.1</version>
+	<class>machine</class>
+	<requires type="package">shadow-groups</requires>
+	<script>machine.accounts.removegroup.sh</script>
+	<parameters>
+		<param type="string" name="user" default="">
+			<label xml:lang="ru">Логин</label>
+		</param>
+		<param type="string" name="comment" default="">
+			<label xml:lang="ru">Группы (через пробел)</label>
+		</param>
+	</parameters>
+</policy_template>
