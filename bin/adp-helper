@@ -228,7 +228,7 @@ def adp_write( policy, item_class ):
 
                 # If enabled == on add to enabled
                 if param == 'enabled':
-                    if value == 'on':
+                    if value == 'on' or value == 'true':
                         enabled_items.append( template )
                     continue
 
