@@ -20,6 +20,7 @@ import logging
 import subprocess
 import re
 import socket
+import sys
 
 configuration = None
 
@@ -53,7 +54,7 @@ class Config:
             output = subprocess.check_output( [ 'net', 'ads', 'lookup' ], stderr=subprocess.STDOUT ).decode()
         except Exception as e:
             logging.error( "Unable to detect domain name: %s" % ( e ) )
-            return
+            sys.exit( 1 )
 
         # Parse ^Domain:...
         d = re.search( "^Domain:\s*(\S+)\n", output, re.MULTILINE )

@@ -179,7 +179,7 @@ class GPOList:
             output = subprocess.check_output( cmd, stderr=subprocess.STDOUT ).decode()
         except:
             logging.fatal( "Unable to mount %s" % ( connection ) )
-            return
+            sys.exit( 2 )
 
         # rsync content
         if os.path.isdir( r_path ):
@@ -189,7 +189,7 @@ class GPOList:
                 output = subprocess.check_output( cmd, stderr=subprocess.STDOUT ).decode()
             except:
                 logging.fatal( "Unable to mount %s" % ( connection ) )
-                return
+                sys.exit( 3 )
             logging.debug( output )
 
         # Umount share
