@@ -42,6 +42,7 @@ if len( sys.argv ) < 4:
 cmd = sys.argv[1]
 policy = sys.argv[2]
 item_class = sys.argv[3]
+f_debug = None
 
 # Process passed language
 lang = os.environ['in_language'] if 'in_language' in os.environ else ''
@@ -69,10 +70,10 @@ def adp_get_rule_file( policy, classname ):
     if not os.path.isdir( loc ):
         # Possible, last part in path has wrong case
         loc = os.path.join( top_dir, classname.upper() )
-        if not os.path.isdir( loc):
+        if not os.path.isdir( loc ):
             loc = os.path.join( top_dir, classname.lower() )
-            if not os.path.isdir( loc):
-                return None
+            if not os.path.isdir( loc ):
+                return ""
 
     # Check if Linux.xml exists in policy directory
     file_name = os.path.join( loc, 'Linux.xml' )
@@ -189,17 +190,19 @@ def adp_list( policy, item_class, is_print ):
 
 def adp_write( policy, item_class ):
     """Write parameters for all rules for policy and class (encoded in base64)"""
+    global f_debug
+
     if DEBUG:
-        f = open( "/tmp/adp-helper.log", "w+" )
-        f.write( "WRITE %s (%s)\n" % ( policy, item_class ) )
+        f_debug = open( "/tmp/adp-helper.log", "a" )
+        f_debug.write( "WRITE %s (%s)\n" % ( policy, item_class ) )
     data = "\n".join( sys.stdin.readlines() ).strip()
     if DEBUG:
-        f.write( "%s\n" % ( data ) )
+        f_debug.write( "%s\n" % ( data ) )
     # Remove double quotes
     #if len(data) > 1 and data[0] == '"':
     #    data = data[1:-1]
     #if DEBUG:
-    #    f.write( "%s\n" % ( data ) )
+    #    f_debug.write( "%s\n" % ( data ) )
     enabled_items = []
     if data:
         # Decode from base64 and parse complete URL
@@ -208,8 +211,8 @@ def adp_write( policy, item_class ):
         data = urllib.parse.parse_qs( data )
 
         if DEBUG:
-            f.write( "Decoding is complete\n" )
-            f.write( "%s\n" % ( pprint.pformat( data ) ) )
+            f_debug.write( "Decoding is complete\n" )
+            f_debug.write( "%s\n" % ( pprint.pformat( data ) ) )
 
         # Extract parameter values
         ddata = {}
@@ -224,7 +227,7 @@ def adp_write( policy, item_class ):
                 template = template.replace( '_', '.' )
 
                 if DEBUG:
-                    f.write( "%s:%s = %s\n" % ( template, param, value ) )
+                    f_debug.write( "%s:%s = %s\n" % ( template, param, value ) )
 
                 # If enabled == on add to enabled
                 if param == 'enabled':
@@ -240,41 +243,34 @@ def adp_write( policy, item_class ):
                 ddata[ template ][ param ] = value
 
         if DEBUG:
-            f.write( "Enabled items: %s\n" % ( pprint.pformat( enabled_items ) ) )
+            f_debug.write( "Enabled items: %s\n" % ( pprint.pformat( enabled_items ) ) )
         # Dictionary cleanup for disabled items
         dd = {}
         for di in enabled_items:
-            dd[ di ] = ddata[ di ]
+            dd[ di ] = ddata[ di ] if di in ddata else {}
 
         # Dump clean dictionary with values
         if DEBUG:
-            f.write( "Data: %s\n" % ( pprint.pformat( dd ) ) )
+            f_debug.write( "Data: %s\n" % ( pprint.pformat( dd ) ) )
 
         # Write data
         adp_write_args( policy, item_class, dd )
     else:
         adp_write_args( policy, item_class, {} )
     if DEBUG:
-        f.write( "%s\n" % ( data ) )
-        f.close()
+        f_debug.close()
     return 0
 
 def adp_write_args( policy, item_class, data ):
     """Write parameters for all rules for policy and class"""
+    global f_debug
+
     file_name = adp_get_rule_file( policy, item_class )
     if not file_name:
         return 1
 
-    try:
-        if os.path.isfile( file_name ):
-            t = ET.parse( file_name )
-            # Remove all existing elements
-            t.getroot().clear()
-        else:
-            t = ET.ElementTree( ET.Element( 'policies' ) )
-    except Exception as e:
-        # print( e )
-        return 2
+    # Create empty file
+    t = ET.ElementTree( ET.Element( 'policies' ) )
 
     # Sort by keys
     data = OrderedDict( sorted( data.items() ) )
@@ -294,11 +290,13 @@ def adp_write_args( policy, item_class, data ):
 
     # Dumps result
     xmlstr = minidom.parseString( ET.tostring( t.getroot() ) ).toprettyxml( indent="    ", encoding="UTF-8" ).decode()
-    #print( xmlstr )
+    if DEBUG:
+        f_debug.write( "Writing file %s\n" % ( file_name ) )
+        f_debug.write( xmlstr )
 
     # Write result
-    with open( file_name, "w" ) as f:
-        f.write( xmlstr )
+    with open( file_name, "w" ) as f_policy:
+        f_policy.write( xmlstr )
 
     return 0
 
