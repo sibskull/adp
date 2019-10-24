@@ -15,6 +15,9 @@ BuildRequires(pre): rpm-build-python3
 BuildRequires(pre): alterator
 Requires: krb5-kinit
 Requires: samba-client
+Requires(preun): sssd-client
+Requires(post): sssd-client
+Requires: sssd-client
 Requires: %name-templates
 Requires: python3-modules-sqlite3
 
@@ -69,6 +72,22 @@ install -Dm0644 %name.service %buildroot%_unitdir/%name.service
 
 cd alterator-domain-policy
 %makeinstall
+
+%preun
+%preun_service adp
+if [ $1 -eq 0 ]; then
+    ### Remove adp-fetch from /etc/pam.d/system-auth-sss on package uninstall
+    subst '/adp-fetch/d' /etc/pam.d/system-auth-sss
+fi
+
+%post
+if [ $1 -eq 0 ]; then
+    ### Add adp-fetch to /etc/pam.d/system-auth-sss on package install
+    if ! grep -q 'adp-fetch' /etc/pam.d/system-auth-sss ; then
+	echo -e "session\t\toptional\tpam_exec.so\t/usr/sbin/adp-fetch" >> /etc/pam.d/system-auth-sss
+    fi
+fi
+%post_service adp
 
 %files
 %doc *.md
