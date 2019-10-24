@@ -190,7 +190,7 @@ def adp_list( policy, item_class, is_print ):
 def adp_write( policy, item_class ):
     """Write parameters for all rules for policy and class (encoded in base64)"""
     if DEBUG:
-        f = open( "/tmp/apd-helper.log", "w+" )
+        f = open( "/tmp/adp-helper.log", "w+" )
         f.write( "WRITE %s (%s)\n" % ( policy, item_class ) )
     data = "\n".join( sys.stdin.readlines() ).strip()
     if DEBUG:
