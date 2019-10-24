@@ -3,6 +3,6 @@
 . adp-functions
 
 ROLE="$1"; shift
-GROUPS="$*" #maybe empty
+GROUPS="$*"
 
 roledel "$ROLE" "$GROUPS"
