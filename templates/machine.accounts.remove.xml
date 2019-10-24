@@ -11,6 +11,7 @@
 	<requires type="package">psmisc</requires>
 	<requires type="package">coreutils</requires>
 	<requires type="package">tar</requires>
+	<requires type="package">python3</requires>
 	<script>machine.accounts.remove.sh</script>
 	<parameters>
 		<param type="string" name="user" default="">
