@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<policy_template>
+	<id>machine.role.add</id>
+	<name>Add domain group to local</name>
+	<name xml:lang="ru">Добавление доменной группы в локальные</name>
+	<version>0.1</version>
+	<class>machine</class>
+	<requires type="package">libnss-role</requires>
+	<script>machine.role.add.sh</script>
+	<parameters>
+		<param type="string" name="role" default="">
+			<label xml:lang="ru">Доменная группа</label>
+		</param>
+		<param type="string" name="groups" default="">
+			<label xml:lang="ru">Локальные группы (через пробел)</label>
+		</param>
+	</parameters>
+</policy_template>
