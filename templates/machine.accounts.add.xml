@@ -18,14 +18,5 @@
 		<param type="string" name="passwd" default="">
 			<label xml:lang="ru">Пароль</label>
 		</param>
-		<param type="string" name="additional_groups" default="">
-			<label xml:lang="ru">Дополнительные группы</label>
-		</param>
-		<param type="string" name="time_limit" default="">
-			<label xml:lang="ru">Время активности аккаунта</label>
-		</param>
-		<param type="string" name="shell" default="">
-			<label xml:lang="ru">Оболочка по умолчанию (bash и т.д.)</label>
-		</param>
 	</parameters>
 </policy_template>

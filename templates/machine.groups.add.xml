@@ -7,15 +7,10 @@
 	<version>0.1</version>
 	<class>machine</class>
 	<requires type="package">shadow-utils</requires>
-	<requires type="package">python3-module-salt</requires>
-	<requires type="package">vmail-tools</requires>
 	<script>machine.groups.add.sh</script>
 	<parameters>
 		<param type="string" name="group" default="">
-			<label xml:lang="ru">Группа</label>
-		</param>
-		<param type="string" name="password" default="">
-			<label xml:lang="ru">Пароль</label>
+			<label xml:lang="ru">Группы (через пробел)</label>
 		</param>
 	</parameters>
 </policy_template>

@@ -22,6 +22,9 @@ alterator-domain-policy
   <param name="title">Nextcloud</param> 
 </policy>
 
+3. Add GPO search
+4. Add GPO's ID output
+
 adp-tempates
 ------------
 

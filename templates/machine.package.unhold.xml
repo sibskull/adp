@@ -10,7 +10,7 @@
 	<script>machine.package.unhold.sh</script>
 	<parameters>
 		<param type="string" name="packages" default="">
-			<label xml:lang="ru">Пакеты</label>
+			<label xml:lang="ru">Пакеты (через пробел)</label>
 		</param>
 	</parameters>
 </policy_template>

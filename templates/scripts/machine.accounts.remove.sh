@@ -2,14 +2,15 @@
 
 . adp-functions
 
-USER="$1" #account name
+LOGIN="$1" #account name
+HOMEDIR=$(python3 -c "import pwd; print(pwd.getpwnam('$LOGIN').pw_dir)")
 
 # Deny the user access to the system and prevent starting new processes.
-passwd --lock "$USER"
+passwd --lock "$LOGIN"
 # Find all the running user processes and terminate them.
-killall -9 -u "$USER"
+killall -9 -u "$LOGIN"
 # Create a backup file of the local user's account.
 mkdir -p /user-backups
-tar jcvf /user-backups/"$USER"-backup.tar.bz2 /home/<DOMAIN_NAME>/"$USER"
+tar jcvf /user-backups/"$LOGIN"-backup.tar.bz2 "$HOMEDIR"
 # Remove an account of the local user.
-userdel --remove "$USER"
+userdel -r "$LOGIN"
