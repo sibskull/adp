@@ -49,27 +49,44 @@ class Config:
             logging.debug( "Set domain name to %s" % ( self.domain ) )
             return
 
-        # Get domain name by command net ads lookup
-        try:
-            output = subprocess.check_output( [ 'net', 'ads', 'lookup' ], stderr=subprocess.STDOUT ).decode()
-        except Exception as e:
-            logging.error( "Unable to detect domain name: %s" % ( e ) )
-            sys.exit( 1 )
 
-        # Parse ^Domain:...
-        d = re.search( "^Domain:\s*(\S+)\n", output, re.MULTILINE )
+        # Get domain name from net ads info output
+        try:
+            output = subprocess.check_output( [ 'net', 'ads', 'info' ], stderr=subprocess.STDOUT ).decode()
+        except Exception as e:
+            logging.error( "Unable to detect domain name: %s %s" % ( e, output ) )
+            # Get domain name from realm parameter in /etc/samba/smb.conf
+            realm_regex = re.compile( "realm = (\S+)" )
+            with open( "/etc/samba/smb.conf", "r" ) as smb_config:
+                for l in smb_config.readlines():
+                    d = re.search( realm_regex, l )
+                    if d:
+                        self.domain = d.group( 1 ).lower()
+                        logging.debug( "Autodetected domain name from smb.conf: %s" % ( self.domain ) )
+                        self.dc = self.domain
+                        self.bind = ",".join( map( lambda x: "DC=" + x, self.domain.split( '.' ) ) )
+                        return
+                    else:
+                        exit( 1 )
+
+        # Parse ^Realm:...
+        d = re.search( "^Realm:\s*(\S+)\n", output, re.MULTILINE )
         if d:
-            self.domain = d.group( 1 )
+            self.domain = d.group( 1 ).lower()
             logging.debug( "Autodetected domain name: %s" % ( self.domain ) )
 
         # Get domain controller FQDN
-        d = re.search( "^Domain Controller:\s*(\S+)\n", output, re.MULTILINE )
+        d = re.search( "^LDAP server name:\s*(\S+)\n", output, re.MULTILINE )
         if d:
             self.dc = d.group( 1 )
             logging.debug( "Domain controller: %s" % ( self.dc ) )
         
-        # Generate bind for LDAP
-        self.bind = ",".join( map( lambda x: "DC=" + x, self.domain.split( '.' ) ) )
+        # Get bind path for LDAP
+        d = re.search( "^Bind Path:\s*(\S+)\n", output, re.MULTILINE )
+        if d:
+            self.bind = d.group( 1 )
+        else:
+            self.bind = ",".join( map( lambda x: "DC=" + x, self.domain.split( '.' ) ) )
 
         # TODO: support domain part in cache and log pathes
 
