@@ -49,35 +49,13 @@ class Config:
             logging.debug( "Set domain name to %s" % ( self.domain ) )
             return
 
-
         # Get domain name from net ads info output
         output = ""
         try:
             output = subprocess.check_output( [ 'net', 'ads', 'info', '--request-timeout', '30' ], stderr=subprocess.STDOUT ).decode()
         except Exception as e:
             logging.error( "Unable to detect domain name: %s %s" % ( e, output ) )
-            # Get domain name from realm parameter in /etc/samba/smb.conf
-            realm_regex = re.compile( "realm = (\S+)" )
-            with open( "/etc/samba/smb.conf", "r" ) as smb_config:
-                for l in smb_config.readlines():
-                    d = re.search( realm_regex, l )
-                    if d:
-                        self.domain = d.group( 1 ).lower()
-                        logging.debug( "Autodetected domain name from smb.conf: %s" % ( self.domain ) )
-                        # self.dc should have FQDN
-                        try:
-                            output = subprocess.check_output( [ 'nslookup', '-type=SOA', self.domain ], stderr=subprocess.STDOUT ).decode() 
-                            d = re.search( "origin =\s*(\S+)\n", output, re.MULTILINE )
-                            if d:
-                                self.dc = d.group( 1 )
-                            else:
-                                exit( 1 )
-                        except Exception as e:
-                            logging.error( "Unable to detect DC FQDN: %s %s" % ( e, output ) )
-                            exit( 1 )
-                        self.bind = ",".join( map( lambda x: "DC=" + x, self.domain.split( '.' ) ) )
-                        return
-                exit( 1 )
+            exit( 1 )
 
         # Parse ^Realm:...
         d = re.search( "^Realm:\s*(\S+)\n", output, re.MULTILINE )
