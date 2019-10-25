@@ -64,7 +64,17 @@ class Config:
                     if d:
                         self.domain = d.group( 1 ).lower()
                         logging.debug( "Autodetected domain name from smb.conf: %s" % ( self.domain ) )
-                        self.dc = self.domain
+                        # self.dc should have FQDN
+                        try:
+                            output = subprocess.check_output( [ 'nslookup', '-type=SOA', self.domain ], stderr=subprocess.STDOUT ).decode() 
+                            d = re.search( "origin =\s*(\S+)\n", output, re.MULTILINE )
+                            if d:
+                                self.dc = d.group( 1 )
+                            else:
+                                exit( 1 )
+                        except Exception as e:
+                            logging.error( "Unable to detect DC FQDN: %s %s" % ( e, output ) )
+                            exit( 1 )
                         self.bind = ",".join( map( lambda x: "DC=" + x, self.domain.split( '.' ) ) )
                         return
                 exit( 1 )
