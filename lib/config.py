@@ -53,7 +53,7 @@ class Config:
         # Get domain name from net ads info output
         output = ""
         try:
-            output = subprocess.check_output( [ 'net', 'ads', 'info' ], stderr=subprocess.STDOUT ).decode()
+            output = subprocess.check_output( [ 'net', 'ads', 'info', '--request-timeout', '30' ], stderr=subprocess.STDOUT ).decode()
         except Exception as e:
             logging.error( "Unable to detect domain name: %s %s" % ( e, output ) )
             # Get domain name from realm parameter in /etc/samba/smb.conf
