@@ -51,6 +51,7 @@ class Config:
 
 
         # Get domain name from net ads info output
+        output = ""
         try:
             output = subprocess.check_output( [ 'net', 'ads', 'info' ], stderr=subprocess.STDOUT ).decode()
         except Exception as e:
@@ -66,8 +67,7 @@ class Config:
                         self.dc = self.domain
                         self.bind = ",".join( map( lambda x: "DC=" + x, self.domain.split( '.' ) ) )
                         return
-                    else:
-                        exit( 1 )
+                exit( 1 )
 
         # Parse ^Realm:...
         d = re.search( "^Realm:\s*(\S+)\n", output, re.MULTILINE )

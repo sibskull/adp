@@ -175,10 +175,11 @@ class GPOList:
         cmd = [ 'mount', '-t', 'cifs', connection, tmp, '-o', 'sec=krb5,ro' ]
         logging.debug( ''.join( cmd ) )
 
+        output = ""
         try:
             output = subprocess.check_output( cmd, stderr=subprocess.STDOUT ).decode()
         except:
-            logging.fatal( "Unable to mount %s" % ( connection ) )
+            logging.fatal( "Unable to mount %s: %s" % ( connection, output ) )
             sys.exit( 2 )
 
         # rsync content
