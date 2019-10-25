@@ -114,5 +114,5 @@ fi
 %_alterator_datadir/ui/*/*
 
 %changelog
-* Sun Oct 20 2019 Andrey Cherepanov <cas@altlinux.org> 1.0-alt1
+* Fri Oct 25 2019 Andrey Cherepanov <cas@altlinux.org> 1.0-alt1
 - Initial build for Sisyphus
